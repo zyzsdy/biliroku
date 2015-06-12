@@ -1,0 +1,15 @@
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe.config
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\icon.ico
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.pdb
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.csprojResolveAssemblyReference.cache
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.MainForm.resources
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.Properties.Resources.resources
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.csproj.GenerateResource.Cache
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.pdb
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe.manifest
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.application
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.TrustInfo.xml
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe.manifest
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.application

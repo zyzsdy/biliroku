@@ -1,0 +1,9 @@
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Debug\BiLiRoku.exe.config
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Debug\BiLiRoku.exe
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Debug\BiLiRoku.pdb
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.csprojResolveAssemblyReference.cache
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.Properties.Resources.resources
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.csproj.GenerateResource.Cache
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.exe
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.pdb
+c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Debug\BiLiRoku.MainForm.resources
