@@ -13,3 +13,4 @@ c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Relea
 c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.TrustInfo.xml
 c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe.manifest
 c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.application
+C:\Users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\MediaInfo.dll

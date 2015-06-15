@@ -40,6 +40,8 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.nowBytesLabel = new System.Windows.Forms.Label();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.recTimeLabel = new System.Windows.Forms.Label();
+            this.nowTimeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // linkLabel1
@@ -73,6 +75,7 @@
             // 
             this.savepathTxtBox.Location = new System.Drawing.Point(71, 54);
             this.savepathTxtBox.Name = "savepathTxtBox";
+            this.savepathTxtBox.ReadOnly = true;
             this.savepathTxtBox.Size = new System.Drawing.Size(170, 21);
             this.savepathTxtBox.TabIndex = 4;
             // 
@@ -99,7 +102,7 @@
             // startBtn
             // 
             this.startBtn.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.startBtn.Location = new System.Drawing.Point(153, 108);
+            this.startBtn.Location = new System.Drawing.Point(14, 107);
             this.startBtn.Name = "startBtn";
             this.startBtn.Size = new System.Drawing.Size(149, 57);
             this.startBtn.TabIndex = 7;
@@ -126,10 +129,11 @@
             // nowBytesLabel
             // 
             this.nowBytesLabel.AutoSize = true;
-            this.nowBytesLabel.Location = new System.Drawing.Point(132, 183);
+            this.nowBytesLabel.Location = new System.Drawing.Point(176, 107);
             this.nowBytesLabel.Name = "nowBytesLabel";
-            this.nowBytesLabel.Size = new System.Drawing.Size(0, 12);
+            this.nowBytesLabel.Size = new System.Drawing.Size(65, 12);
             this.nowBytesLabel.TabIndex = 9;
+            this.nowBytesLabel.Text = "已下载字节";
             // 
             // linkLabel2
             // 
@@ -142,11 +146,31 @@
             this.linkLabel2.Text = "保存位置：";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
+            // recTimeLabel
+            // 
+            this.recTimeLabel.AutoSize = true;
+            this.recTimeLabel.Location = new System.Drawing.Point(176, 136);
+            this.recTimeLabel.Name = "recTimeLabel";
+            this.recTimeLabel.Size = new System.Drawing.Size(53, 12);
+            this.recTimeLabel.TabIndex = 11;
+            this.recTimeLabel.Text = "录制时间";
+            // 
+            // nowTimeLabel
+            // 
+            this.nowTimeLabel.AutoSize = true;
+            this.nowTimeLabel.Location = new System.Drawing.Point(176, 163);
+            this.nowTimeLabel.Name = "nowTimeLabel";
+            this.nowTimeLabel.Size = new System.Drawing.Size(77, 12);
+            this.nowTimeLabel.TabIndex = 12;
+            this.nowTimeLabel.Text = "当前录制时间";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 204);
+            this.ClientSize = new System.Drawing.Size(607, 207);
+            this.Controls.Add(this.nowTimeLabel);
+            this.Controls.Add(this.recTimeLabel);
             this.Controls.Add(this.nowBytesLabel);
             this.Controls.Add(this.infoTxtBox);
             this.Controls.Add(this.startBtn);
@@ -181,6 +205,8 @@
         private System.Windows.Forms.RichTextBox infoTxtBox;
         private System.Windows.Forms.Label nowBytesLabel;
         private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.Label recTimeLabel;
+        private System.Windows.Forms.Label nowTimeLabel;
     }
 }
 

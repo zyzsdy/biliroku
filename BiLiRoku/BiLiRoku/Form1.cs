@@ -13,8 +13,8 @@ namespace BiLiRoku
     public partial class MainForm : Form
     {
         bool isRec = false; //是否正在录制
-        BiliNamaPathFind bnpf;
-        DownloadFlv downloadFlv;
+        BiliNamaPathFind bnpf; //获得真实地址
+        DownloadFlv downloadFlv; //下载FLV
 
         public MainForm()
         {
@@ -38,6 +38,9 @@ namespace BiLiRoku
             isRec = false;
             bnpf = null;
             infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "]:启动成功。\n");
+            nowBytesLabel.Text = "";
+            recTimeLabel.Text = "";
+            nowTimeLabel.Text = "";
         }
 
         private void startBtn_Click(object sender, EventArgs e)
@@ -82,7 +85,8 @@ namespace BiLiRoku
                 if(bnpf.Init(roomid, infoTxtBox))
                 {
                     downloadFlv = new DownloadFlv();
-                    if(downloadFlv.Start(bnpf.trueURL, savepath, infoTxtBox, nowBytesLabel))
+                    downloadFlv.SetInfos(infoTxtBox, nowBytesLabel, recTimeLabel, nowTimeLabel);
+                    if(downloadFlv.Start(bnpf.trueURL, savepath))
                     {
                         isRec = true;
                         startBtn.Text = "停止";
