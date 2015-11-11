@@ -1,7 +1,7 @@
 ﻿# biliroku
 bilibili 生放送（直播）录制
 
-BiliRoku v1.1.0
+BiliRoku v1.2.2
 
 Licensed by GPLv3 详情请见LICENSE文件
 
@@ -22,3 +22,11 @@ BiliRoku是用来录制bilibili生放送（直播）内容的。
 （主页 http://zyzsdy.com/biliroku)
 
 运行平台: .NET framework 4.0以上
+
+-------------
+
+更新说明：
+
+1.2.2 build 12 (2015-11-11)
+
+支持B站短房间号

@@ -14,3 +14,19 @@ c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Relea
 c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe.manifest
 c:\users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.application
 C:\Users\tedzy\documents\visual studio 2015\Projects\BiLiRoku\BiLiRoku\bin\Release\MediaInfo.dll
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe.config
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.pdb
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\MediaInfo.dll
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\icon.ico
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe.manifest
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.application
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.exe
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\bin\Release\BiLiRoku.pdb
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.csprojResolveAssemblyReference.cache
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.MainForm.resources
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.Properties.Resources.resources
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.csproj.GenerateResource.Cache
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.TrustInfo.xml
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.exe.manifest
+D:\BilibiliNamahosou\biliroku\BiLiRoku\BiLiRoku\obj\Release\BiLiRoku.application

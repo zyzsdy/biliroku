@@ -23,7 +23,7 @@ namespace BiLiRoku
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("BiliRoku ver " + Version.VER + "\n\nBy zyzsdy\n\n主页：http://zyzsdy.com/biliroku", "关于 BiliRoku");
+            MessageBox.Show("BiliRoku ver " + Version.VER + "  " + Version.DATE +  "\n\n更新说明：" + Version.DESC + "\n\nBy zyzsdy\n\n主页：http://zyzsdy.com/biliroku", "关于 BiliRoku");
         }
 
         private void openSaveBtn_Click(object sender, EventArgs e)

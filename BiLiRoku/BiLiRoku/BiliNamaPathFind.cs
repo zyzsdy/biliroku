@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -13,7 +14,7 @@ namespace BiLiRoku
     class BiliNamaPathFind
     {
         const string appkey = "2379cb56649e081f";
-        const string selectkey = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        const string selectkey = "a6aa1ae3fe6f5caad56c1f79a615d9fb";
         string useragent = Version.UA;
 
         string roomid;
@@ -22,10 +23,59 @@ namespace BiLiRoku
 
         public bool Init(string roomid, RichTextBox infoBox = null)
         {
-            this.roomid = roomid;
             this.infoBox = infoBox;
+            string trueRoomid = getTrueRoomid(roomid);
+            this.roomid = trueRoomid;
             string apiPath = CalcApiPath();
             return GetTrueURL(apiPath);
+        }
+
+        private string getTrueRoomid(string roomid)
+        {
+            if(infoBox != null)
+            {
+                infoBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 尝试获取真实房间号。\n");
+            }
+            string roomWebPageUrl = "http://live.bilibili.com/" + roomid;
+            WebClient wc = new WebClient();
+            wc.Headers.Add("Accept: text/html");
+            wc.Headers.Add("User-Agent: " + useragent);
+            wc.Headers.Add("Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4");
+
+            //发送HTTP请求获取真实房间号
+            string roomHtml = null;
+
+            try
+            {
+                roomHtml = wc.DownloadString(roomWebPageUrl);
+            }
+            catch (Exception e)
+            {
+                if (infoBox != null)
+                {
+                    infoBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "] 打开直播页面失败：" + e.Message + "\n");
+                }
+                return "0000";
+            }
+
+            //从HTML中提取真实房间号
+
+            string pattern = @"(?<=var ROOMID = )(\d+)(?=;)";
+            MatchCollection colls = Regex.Matches(roomHtml, pattern);
+            foreach (Match mat in colls)
+            {
+                if (infoBox != null)
+                {
+                    infoBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 真实房间号：" + mat.Value + "\n");
+                }
+                return mat.Value;
+            }
+
+            if (infoBox != null)
+            {
+                infoBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "] 获取真实房间号失败\n");
+            }
+            return "0000";
         }
 
         private bool GetTrueURL(string apiPath)
