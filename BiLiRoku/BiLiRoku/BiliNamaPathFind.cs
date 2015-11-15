@@ -13,8 +13,8 @@ namespace BiLiRoku
 {
     class BiliNamaPathFind
     {
-        const string appkey = "2379cb56649e081f";
-        const string selectkey = "a6aa1ae3fe6f5caad56c1f79a615d9fb";
+        const string appkey = BiliApiInfo.AK;
+        const string selectkey = BiliApiInfo.SK;
         string useragent = Version.UA;
 
         string roomid;

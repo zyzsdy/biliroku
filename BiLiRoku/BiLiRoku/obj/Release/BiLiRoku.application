@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xrml="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <assemblyIdentity name="BiLiRoku.application" version="1.2.2.12" publicKeyToken="0000000000000000" language="zh-Hans" processorArchitecture="x86" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <assemblyIdentity name="BiLiRoku.application" version="1.2.3.14" publicKeyToken="0000000000000000" language="zh-Hans" processorArchitecture="x86" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <description asmv2:publisher="Zyzsdy" asmv2:product="BiliRoku" asmv2:supportUrl="http://zyzsdy.com/biliroku" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" minimumRequiredVersion="1.1.0.0" co.v1:createDesktopShortcut="true">
     <subscription>
@@ -15,13 +15,13 @@
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="BiLiRoku.exe.manifest" size="5365">
-      <assemblyIdentity name="BiLiRoku.exe" version="1.2.2.12" publicKeyToken="0000000000000000" language="zh-Hans" processorArchitecture="x86" type="win32" />
+      <assemblyIdentity name="BiLiRoku.exe" version="1.2.3.14" publicKeyToken="0000000000000000" language="zh-Hans" processorArchitecture="x86" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>kgsI2oYqvCPkmIMM8xtORSITrQA=</dsig:DigestValue>
+        <dsig:DigestValue>GYHDUZIQHIPCvVtpZ8l9Zbh4HBU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

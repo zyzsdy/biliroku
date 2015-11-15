@@ -70,6 +70,7 @@
             this.roomidTxtBox.Name = "roomidTxtBox";
             this.roomidTxtBox.Size = new System.Drawing.Size(95, 21);
             this.roomidTxtBox.TabIndex = 2;
+            this.roomidTxtBox.TextChanged += new System.EventHandler(this.roomidTxtBox_TextChanged);
             // 
             // savepathTxtBox
             // 

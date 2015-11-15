@@ -1,7 +1,7 @@
 ﻿# biliroku
 bilibili 生放送（直播）录制
 
-BiliRoku v1.2.2
+BiliRoku v1.2.3
 
 Licensed by GPLv3 详情请见LICENSE文件
 
@@ -26,6 +26,10 @@ BiliRoku是用来录制bilibili生放送（直播）内容的。
 -------------
 
 更新说明：
+
+1.2.3 build 13 (2015-11-14)
+
+支持自动读取，写入配置。在重启程序后自动加载配置。
 
 1.2.2 build 12 (2015-11-11)
 

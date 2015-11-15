@@ -15,6 +15,7 @@ namespace BiLiRoku
         bool isRec = false; //是否正在录制
         BiliNamaPathFind bnpf; //获得真实地址
         DownloadFlv downloadFlv; //下载FLV
+        Config config; //配置信息类
 
         public MainForm()
         {
@@ -23,13 +24,14 @@ namespace BiLiRoku
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("BiliRoku ver " + Version.VER + "  " + Version.DATE +  "\n\n更新说明：" + Version.DESC + "\n\nBy zyzsdy\n\n主页：http://zyzsdy.com/biliroku", "关于 BiliRoku");
+            MessageBox.Show("BiliRoku ver " + Version.VER + "  " + Version.DATE + "\n\nBy zyzsdy\n\n主页：http://zyzsdy.com/biliroku", "关于 BiliRoku");
         }
 
         private void openSaveBtn_Click(object sender, EventArgs e)
         {
             saveFileDialog1.ShowDialog();
             savepathTxtBox.Text = saveFileDialog1.FileName;
+            config.SaveLocation = saveFileDialog1.FileName;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -37,10 +39,29 @@ namespace BiLiRoku
             //进行一些初始化工作。
             isRec = false;
             bnpf = null;
-            infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "]:启动成功。\n");
             nowBytesLabel.Text = "";
             recTimeLabel.Text = "";
             nowTimeLabel.Text = "";
+            infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 开始读取配置信息。\n");
+            this.config = new Config();
+
+            //显示更新说明。
+            if(config.Version != Version.VER)
+            {
+                MessageBox.Show("BiliRoku已经更新到 " + Version.VER + "\n\n更新说明：\n" + Version.DESC);
+                config.Version = Version.VER;
+            }
+            //读取配置并填入文本框
+            if(config.RoomId != null)
+            {
+                this.roomidTxtBox.Text = config.RoomId;
+            }
+            if(config.SaveLocation != null)
+            {
+                this.saveFileDialog1.FileName = config.SaveLocation;
+                this.savepathTxtBox.Text = this.saveFileDialog1.FileName;
+            }
+            infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 启动成功。\n");
         }
 
         private void startBtn_Click(object sender, EventArgs e)
@@ -53,7 +74,7 @@ namespace BiLiRoku
                 downloadFlv.Stop();
 
                 isRec = false;
-                infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "]:已停止。\n");
+                infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 已停止。\n");
                 startBtn.Text = "开始";
                 startBtn.Enabled = true;
             }
@@ -78,7 +99,7 @@ namespace BiLiRoku
                     startBtn.Enabled = true;
                     return;
                 }
-                infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "]:开始解析...\n");
+                infoTxtBox.AppendText("[INFO " + DateTime.Now.ToString("HH:mm:ss") + "] 开始解析...\n");
 
                 //开始解析url
                 bnpf = new BiliNamaPathFind();
@@ -93,7 +114,7 @@ namespace BiLiRoku
                         startBtn.Enabled = true;
                     }else
                     {
-                        infoTxtBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "]:已停止。\n");
+                        infoTxtBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "] 已停止。\n");
                         startBtn.Text = "开始";
                         startBtn.Enabled = true;
                     }
@@ -101,7 +122,7 @@ namespace BiLiRoku
                 }
                 else
                 {
-                    infoTxtBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "]:已停止。\n");
+                    infoTxtBox.AppendText("[ERROR " + DateTime.Now.ToString("HH:mm:ss") + "] 已停止。\n");
                     startBtn.Text = "开始";
                     startBtn.Enabled = true;
                 }
@@ -122,6 +143,11 @@ namespace BiLiRoku
                 string path = System.IO.Path.GetDirectoryName(filename);
                 System.Diagnostics.Process.Start("explorer.exe", path);
             }
+        }
+
+        private void roomidTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            config.RoomId = this.roomidTxtBox.Text;
         }
     }
 }
