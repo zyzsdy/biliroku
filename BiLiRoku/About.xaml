@@ -1,0 +1,31 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BiliRoku"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="BiliRoku.About"
+        mc:Ignorable="d"
+        Title="关于 BiliRoku" Height="308.124" Width="506.945" Foreground="Black" Background="#FFF6F6F6" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Icon="pack://siteoforigin:,,,/icon.ico" Loaded="Window_Loaded">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Alt" Key="C" Command="{DynamicResource CloseThisDialog}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <RoutedUICommand x:Key="CloseThisDialog" Text="Click close button"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource CloseThisDialog}" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="335*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="image" Height="61" Margin="0,24,10.143,0" VerticalAlignment="Top" Source="pack://siteoforigin:,,,/icon.ico" HorizontalAlignment="Right" Width="63"/>
+        <Label x:Name="AboutTitleTextLabel" Content="BiliRoku" Grid.Column="1" HorizontalAlignment="Left" Margin="12.857,24,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="VersionTextLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="72.857,24,0,0" VerticalAlignment="Top" Content="v"/>
+        <Button x:Name="OkButton" Content="关闭(C)" Grid.Column="1" HorizontalAlignment="Left" Margin="236.571,230,0,0" VerticalAlignment="Top" Width="79" IsDefault="True" Height="26" AutomationProperties.AcceleratorKey="Alt+C" Click="OkButton_Click"/>
+        <TextBox x:Name="InfoBox" Grid.Column="1" Margin="17.571,53,19.143,54.429" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Background="#FFF6F6F6"/>
+
+    </Grid>
+</Window>

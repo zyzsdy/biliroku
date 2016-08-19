@@ -16,10 +16,11 @@
 
 using System;
 using System.Runtime.InteropServices;
+// ReSharper disable All
 
 #pragma warning disable 1591 // Disable XML documentation warnings
 
-namespace MediaInfoLib
+namespace BiliRoku.MediaInfolib
 {
     public enum StreamKind
     {
