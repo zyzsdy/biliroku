@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>C:\Myworks\BiliRoku New\tesr\|C:\Myworks\BiliRoku New\Publish\|publish\</PublishUrlHistory>
+    <InstallUrlHistory>http://7xjoun.dl1.z0.glb.clouddn.com/</InstallUrlHistory>
+    <SupportUrlHistory>http://zyzsdy.com/biliroku</SupportUrlHistory>
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>zh-CN</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>
