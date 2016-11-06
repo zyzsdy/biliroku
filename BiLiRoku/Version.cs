@@ -7,11 +7,11 @@ namespace BiliRoku
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class Ver
     {
-        public const string VER = "1.4.1";
-        public const string DATE = "(2016-08-19)";
-        public const string DESC = "修复了由于弹幕服务器连接不稳定造成的崩溃退出问题。（紧急修复，可能仍有bug）";
+        public const string VER = "1.4.3";
+        public const string DATE = "(2016-11-7)";
+        public const string DESC = "修复了主播未开播状态长时间挂机后开播可能下载失败的错误。\nby Kimi-Arthur\n\n修复了自动更新可能存在的问题。";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
-        public static readonly string UA = "FeelyBlog/1.1 (zyzsdy@foxmail.com) BiliRoku/1.4.1 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36";
+        public static readonly string UA = "FeelyBlog/1.1 (zyzsdy@foxmail.com) BiliRoku/1.4.2 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36";
     }
 
     internal static class WinVer
