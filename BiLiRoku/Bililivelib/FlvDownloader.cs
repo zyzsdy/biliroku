@@ -12,8 +12,7 @@ namespace BiliRoku.Bililivelib
     internal class FlvDownloader
     {
         public bool IsDownloading { get; private set; }
-
-        private readonly string _url;
+        
         private readonly string _savePath;
         private readonly string _roomid;
         private string _compiledPath;
@@ -29,16 +28,15 @@ namespace BiliRoku.Bililivelib
 
         private long _nextCheck = 300000;
 
-        public FlvDownloader(string roomid, string url, string savePath, bool saveComment, CommentProvider cmtProvider)
+        public FlvDownloader(string roomid, string savePath, bool saveComment, CommentProvider cmtProvider)
         {
-            _url = url;
             _savePath = savePath;
             _roomid = roomid;
             _saveComment = saveComment;
             _cmtProvider = cmtProvider;
         }
 
-        public void Start()
+        public void Start(string uri)
         {
             //初始化
             _nextCheck = 300000;
@@ -61,7 +59,7 @@ namespace BiliRoku.Bililivelib
             }
             // ReSharper restore AssignNullToNotNullAttribute
             var startTimestamp = Convert.ToInt64((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalMilliseconds);
-            _wc.DownloadFileAsync(new Uri(_url), _compiledPath);
+            _wc.DownloadFileAsync(new Uri(uri), _compiledPath);
             //如果勾选了“同时保存弹幕”，则开始下载弹幕
             if (!_saveComment) return;
             var xmlPath = ChangeExtension(_compiledPath, "xml");

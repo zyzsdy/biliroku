@@ -65,12 +65,12 @@ namespace BiliRoku.Bililivelib
             }
 
             var cmtProvider = ReceiveComment();
-            _flvDownloader = new FlvDownloader(_roomid, _flvUrl, savepath, _downloadCommentOption, cmtProvider);
+            _flvDownloader = new FlvDownloader(_roomid, savepath, _downloadCommentOption, cmtProvider);
             _flvDownloader.Info += _flvDownloader_Info;
             CheckStreaming();
             try
             {
-                _flvDownloader.Start();
+                _flvDownloader.Start(_flvUrl);
             }
             catch (Exception e)
             {
@@ -171,7 +171,7 @@ namespace BiliRoku.Bililivelib
             }
         }
 
-        private void CommentProvider_OnReceivedComment(object sender, ReceivedCommentArgs e)
+        private async void CommentProvider_OnReceivedComment(object sender, ReceivedCommentArgs e)
         {
             //接收到弹幕时的处理。
             if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
@@ -191,8 +191,26 @@ namespace BiliRoku.Bililivelib
             else
             {
                 _mw.AppendLogln("INFO", "[主播开始直播]");
+
                 if (!_autoStart || _flvDownloader.IsDownloading) return;
-                _flvDownloader.Start();
+                //准备查找下载地址
+                var pathFinder = new PathFinder(_mw);
+                
+                //查找真实下载地址
+                try
+                {
+                    _flvUrl = await pathFinder.GetTrueUrl(_roomid);
+                }
+                catch
+                {
+                    _mw.AppendLogln("ERROR", "未取得下载地址");
+                    Stop();
+                    return; //停止并退出
+                }
+
+                _mw.AppendLogln("INFO", $"新下载地址：{_flvUrl}");
+
+                _flvDownloader.Start(_flvUrl);
                 _mw.Dispatcher.Invoke(() => { _mw.LiveStatus.Content = "正在直播"; });
             }
         }
