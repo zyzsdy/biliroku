@@ -16,7 +16,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-// ReSharper disable All
 
 #pragma warning disable 1591 // Disable XML documentation warnings
 
@@ -140,9 +139,7 @@ namespace BiliRoku.MediaInfolib
         public int Open(String FileName)
         {
             if (Handle == (IntPtr)0)
-            {
                 return 0;
-            }
             if (MustUseAnsi)
             {
                 IntPtr FileName_Ptr = Marshal.StringToHGlobalAnsi(FileName);
@@ -173,7 +170,7 @@ namespace BiliRoku.MediaInfolib
         public String Inform()
         {
             if (Handle == (IntPtr)0)
-                return "Unable to load MediaInfo library 1";
+                return "Unable to load MediaInfo library";
             if (MustUseAnsi)
                 return Marshal.PtrToStringAnsi(MediaInfoA_Inform(Handle, (IntPtr)0));
             else
@@ -182,7 +179,7 @@ namespace BiliRoku.MediaInfolib
         public String Get(StreamKind StreamKind, int StreamNumber, String Parameter, InfoKind KindOfInfo, InfoKind KindOfSearch)
         {
             if (Handle == (IntPtr)0)
-                return "Unable to load MediaInfo library 2";
+                return "Unable to load MediaInfo library";
             if (MustUseAnsi)
             {
                 IntPtr Parameter_Ptr=Marshal.StringToHGlobalAnsi(Parameter);
@@ -196,7 +193,7 @@ namespace BiliRoku.MediaInfolib
         public String Get(StreamKind StreamKind, int StreamNumber, int Parameter, InfoKind KindOfInfo)
         {
             if (Handle == (IntPtr)0)
-                return "Unable to load MediaInfo library 3";
+                return "Unable to load MediaInfo library";
             if (MustUseAnsi)
                 return Marshal.PtrToStringAnsi(MediaInfoA_GetI(Handle, (IntPtr)StreamKind, (IntPtr)StreamNumber, (IntPtr)Parameter, (IntPtr)KindOfInfo));
             else
@@ -205,7 +202,7 @@ namespace BiliRoku.MediaInfolib
         public String Option(String Option, String Value)
         {
             if (Handle == (IntPtr)0)
-                return "Unable to load MediaInfo library 4";
+                return "Unable to load MediaInfo library";
             if (MustUseAnsi)
             {
                 IntPtr Option_Ptr=Marshal.StringToHGlobalAnsi(Option);
