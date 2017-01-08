@@ -32,8 +32,8 @@
     <MinimumRequiredVersion>1.3.0.0</MinimumRequiredVersion>
     <WebPage>index.html</WebPage>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>32</ApplicationRevision>
-    <ApplicationVersion>1.4.2.%2a</ApplicationVersion>
+    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationVersion>1.4.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

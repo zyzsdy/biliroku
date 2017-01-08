@@ -103,6 +103,27 @@ namespace BiliRoku
             saveCommentCheckBox.IsChecked = _config.IsDownloadComment;
             waitForStreamCheckBox.IsChecked = _config.IsWaitStreaming;
             AppendLogln("INFO", "启动成功。");
+            var checkUpdate = new CheckUpdate();
+            checkUpdate.OnInfo += CheckUpdate_OnInfo;
+            checkUpdate.OnResult += CheckUpdate_OnResult;
+        }
+
+        private void CheckUpdate_OnResult(object sender, UpdateResultArgs result)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                aboutLinkLabel.Content = "发现新版本：" + result.version;
+                aboutLinkLabel.MouseLeftButtonUp -= aboutLinkLabel_MouseLeftButtonUp;
+                aboutLinkLabel.MouseLeftButtonUp += (s, e) =>
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", result.url);
+                };
+            });
+        }
+
+        private void CheckUpdate_OnInfo(object sender, string info)
+        {
+            AppendLogln("AutoUpdate", info);
         }
 
         private void aboutLinkLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
