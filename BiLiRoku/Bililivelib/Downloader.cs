@@ -190,9 +190,10 @@ namespace BiliRoku.Bililivelib
             }
             else
             {
+                if (!_autoStart || _flvDownloader.IsDownloading) return;
+                _flvDownloader.IsDownloading = true;
                 _mw.AppendLogln("INFO", "[主播开始直播]");
 
-                if (!_autoStart || _flvDownloader.IsDownloading) return;
                 //准备查找下载地址
                 var pathFinder = new PathFinder(_mw);
                 
