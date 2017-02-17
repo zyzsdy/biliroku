@@ -11,7 +11,7 @@ namespace BiliRoku.Bililivelib
 {
     internal class FlvDownloader
     {
-        public bool IsDownloading { get; private set; }
+        public bool IsDownloading;
         
         private readonly string _savePath;
         private readonly string _roomid;
