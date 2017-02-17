@@ -90,11 +90,18 @@ namespace BiliRoku.Bililivelib
             Stop();
         }
 
-        public void Stop()
+        public void Stop(bool force=false)
         {
             _wc.CancelAsync();
             _wc.Dispose();
-            _xmlBuilder?.Stop();
+            if (force)
+            {
+                _xmlBuilder?.QuickStop();
+            }
+            else
+            {
+                _xmlBuilder?.Stop();
+            }
             _xmlBuilder = null;
             IsDownloading = false;
         }

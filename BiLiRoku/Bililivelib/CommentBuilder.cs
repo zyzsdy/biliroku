@@ -42,6 +42,19 @@ namespace BiliRoku.Bililivelib
         {
             IsOpen = false;
         }
+        public void QuickStop()
+        {
+            IsOpen = false;
+            try
+            {
+                _sw.Close();
+                _fs.Close();
+            }
+            catch
+            {
+                ;
+            }
+        }
 
 
         private FileStream _fs;
@@ -65,10 +78,17 @@ namespace BiliRoku.Bililivelib
                     ;
                 }
             }
-            _sw.Write(XmlFooter);
-            _sw.Flush();
-            _sw.Close();
-            _fs.Close();
+            try
+            {
+                _sw.Write(XmlFooter);
+                _sw.Flush();
+                _sw.Close();
+                _fs.Close();
+            }
+            catch
+            {
+                ;
+            }
         }
 
         private async Task<CommentModel> Dequeue()

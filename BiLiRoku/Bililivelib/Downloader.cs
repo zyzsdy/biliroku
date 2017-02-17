@@ -10,6 +10,7 @@ namespace BiliRoku.Bililivelib
         private readonly MainWindow _mw;
         private string _roomid;
         private string _flvUrl;
+        private bool _flvRunning;
         private CommentProvider _commentProvider;
         private FlvDownloader _flvDownloader;
         private long _recordedSize;
@@ -21,6 +22,7 @@ namespace BiliRoku.Bililivelib
         {
             _mw = mw;
             IsRunning = false;
+            _flvRunning = false;
         }
 
         public async void Start()
@@ -199,7 +201,10 @@ namespace BiliRoku.Bililivelib
                 //查找真实下载地址
                 try
                 {
+                    if (_flvRunning) return;
+                    _flvRunning = true;
                     _flvUrl = await pathFinder.GetTrueUrl(_roomid);
+                    _flvRunning = false;
                 }
                 catch
                 {
@@ -208,10 +213,10 @@ namespace BiliRoku.Bililivelib
                     return; //停止并退出
                 }
 
-                _mw.AppendLogln("INFO", $"新下载地址：{_flvUrl}");
+                _mw.AppendLogln("INFO", "下载地址已更新。");
 
                 _flvDownloader.Start(_flvUrl);
-                _mw.Dispatcher.Invoke(() => { _mw.LiveStatus.Content = "正在直播"; });
+                CheckStreaming();
             }
         }
 
