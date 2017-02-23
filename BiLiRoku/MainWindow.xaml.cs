@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using BiliRoku.Bililivelib;
+using System.Threading.Tasks;
 
 namespace BiliRoku
 {
@@ -106,6 +107,11 @@ namespace BiliRoku
             var checkUpdate = new CheckUpdate();
             checkUpdate.OnInfo += CheckUpdate_OnInfo;
             checkUpdate.OnResult += CheckUpdate_OnResult;
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void CheckUpdate_OnResult(object sender, UpdateResultArgs result)

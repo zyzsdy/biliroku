@@ -64,7 +64,14 @@ namespace BiliRoku.Bililivelib
             if (!_saveComment) return;
             var xmlPath = ChangeExtension(_compiledPath, "xml");
             _xmlBuilder = new CommentBuilder(xmlPath, startTimestamp, _cmtProvider);
-            _xmlBuilder.Start();
+            try
+            {
+                _xmlBuilder.Start();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private void ShowProgress(object sender, DownloadProgressChangedEventArgs e)

@@ -27,56 +27,65 @@ namespace BiliRoku.Bililivelib
 
         public async void Start()
         {
-            _mw.SetProcessingBtn();
-            if (IsRunning)
-            {
-                _mw.AppendLogln("ERROR", "已经是运行状态了。");
-                return;
-            }
-            //设置运行状态。
-            IsRunning = true;
-
-            //读取设置
-            var originalRoomId = _mw.roomIdBox.Text;
-            var savepath = _mw.savepathBox.Text;
-            _downloadCommentOption = _mw.saveCommentCheckBox.IsChecked ?? true;
-            _autoStart = _mw.waitForStreamCheckBox.IsChecked ?? true;
-
-            //准备查找下载地址
-            var pathFinder = new PathFinder(_mw);
-            //查找真实房间号
-            _roomid = await pathFinder.GetRoomid(originalRoomId);
-            if (_roomid != null)
-            {
-                _mw.SetStartBtn();
-            }else
-            {
-                _mw.AppendLogln("ERROR", "未取得真实房间号");
-                Stop();
-                return; //停止并退出
-            }
-            //查找真实下载地址
             try
             {
-                _flvUrl = await pathFinder.GetTrueUrl(_roomid);
-            }catch
-            {
-                _mw.AppendLogln("ERROR", "未取得下载地址");
-                Stop();
-                return; //停止并退出
-            }
+                _mw.SetProcessingBtn();
+                if (IsRunning)
+                {
+                    _mw.AppendLogln("ERROR", "已经是运行状态了。");
+                    return;
+                }
+                //设置运行状态。
+                IsRunning = true;
 
-            var cmtProvider = ReceiveComment();
-            _flvDownloader = new FlvDownloader(_roomid, savepath, _downloadCommentOption, cmtProvider);
-            _flvDownloader.Info += _flvDownloader_Info;
-            CheckStreaming();
-            try
+                //读取设置
+                var originalRoomId = _mw.roomIdBox.Text;
+                var savepath = _mw.savepathBox.Text;
+                _downloadCommentOption = _mw.saveCommentCheckBox.IsChecked ?? true;
+                _autoStart = _mw.waitForStreamCheckBox.IsChecked ?? true;
+
+                //准备查找下载地址
+                var pathFinder = new PathFinder(_mw);
+                //查找真实房间号
+                _roomid = await pathFinder.GetRoomid(originalRoomId);
+                if (_roomid != null)
+                {
+                    _mw.SetStartBtn();
+                }
+                else
+                {
+                    _mw.AppendLogln("ERROR", "未取得真实房间号");
+                    Stop();
+                    return; //停止并退出
+                }
+                //查找真实下载地址
+                try
+                {
+                    _flvUrl = await pathFinder.GetTrueUrl(_roomid);
+                }
+                catch
+                {
+                    _mw.AppendLogln("ERROR", "未取得下载地址");
+                    Stop();
+                    return; //停止并退出
+                }
+
+                var cmtProvider = ReceiveComment();
+                _flvDownloader = new FlvDownloader(_roomid, savepath, _downloadCommentOption, cmtProvider);
+                _flvDownloader.Info += _flvDownloader_Info;
+                CheckStreaming();
+                try
+                {
+                    _flvDownloader.Start(_flvUrl);
+                }
+                catch (Exception e)
+                {
+                    _mw.AppendLogln("ERROR", "下载视频流时出错：" + e.Message);
+                    Stop();
+                }
+            }catch(Exception e)
             {
-                _flvDownloader.Start(_flvUrl);
-            }
-            catch (Exception e)
-            {
-                _mw.AppendLogln("ERROR", "下载视频流时出错：" + e.Message);
+                _mw.AppendLogln("ERROR", "未知错误：" + e.Message);
                 Stop();
             }
         }
@@ -95,23 +104,34 @@ namespace BiliRoku.Bililivelib
         private async void CheckStreaming()
         {
             await Task.Delay(2000);
-            if (_recordedSize <= 1)
+            try
             {
-                if (_flvDownloader.IsDownloading)
+                if (_flvDownloader == null)
                 {
-                    _flvDownloader.Stop();
+                    return;
                 }
-                _mw.Dispatcher.Invoke(() =>
+                if (_recordedSize <= 1)
                 {
-                    _mw.LiveStatus.Content = "未直播";
-                });
-            }
-            else
+                    if (_flvDownloader.IsDownloading)
+                    {
+                        _flvDownloader.Stop();
+                    }
+                    _mw.Dispatcher.Invoke(() =>
+                    {
+                        _mw.LiveStatus.Content = "未直播";
+                    });
+                }
+                else
+                {
+                    _mw.Dispatcher.Invoke(() =>
+                    {
+                        _mw.LiveStatus.Content = "正在直播";
+                    });
+                }
+            }catch(Exception ex)
             {
-                _mw.Dispatcher.Invoke(() =>
-                {
-                    _mw.LiveStatus.Content = "正在直播";
-                });
+                _mw.AppendLogln("ERROR", "在检查直播状态时发生未知错误：" + ex.Message);
+                Stop();
             }
         }
 
@@ -175,48 +195,64 @@ namespace BiliRoku.Bililivelib
 
         private async void CommentProvider_OnReceivedComment(object sender, ReceivedCommentArgs e)
         {
-            //接收到弹幕时的处理。
-            if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
+            try
             {
-                if (e.Comment.MsgType != MsgTypeEnum.LiveEnd) return;
-                _mw.AppendLogln("INFO", "[主播结束直播]");
-                _flvDownloader?.Stop();
-                if (!_autoStart)
+                //接收到弹幕时的处理。
+                if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
                 {
-                    Stop();
+                    if (e.Comment.MsgType != MsgTypeEnum.LiveEnd) return;
+                    _mw.AppendLogln("INFO", "[主播结束直播]");
+                    _flvDownloader?.Stop();
+                    if (!_autoStart)
+                    {
+                        Stop();
+                    }
+                    else
+                    {
+                        _mw.Dispatcher.Invoke(() => { _mw.LiveStatus.Content = "未直播"; });
+                    }
                 }
                 else
                 {
-                    _mw.Dispatcher.Invoke(() => { _mw.LiveStatus.Content = "未直播"; });
+                    _mw.AppendLogln("INFO", "[主播开始直播]");
+
+                    if (!_autoStart || _flvDownloader.IsDownloading) return;
+                    //准备查找下载地址
+                    var pathFinder = new PathFinder(_mw);
+
+                    //查找真实下载地址
+                    try
+                    {
+                        if (_flvRunning) return;
+                        _flvRunning = true;
+                        _flvUrl = await pathFinder.GetTrueUrl(_roomid);
+                        _flvRunning = false;
+                    }
+                    catch
+                    {
+                        _mw.AppendLogln("ERROR", "未取得下载地址");
+                        Stop();
+                        return; //停止并退出
+                    }
+
+                    _mw.AppendLogln("INFO", "下载地址已更新。");
+
+                    try
+                    {
+                        _flvDownloader.Start(_flvUrl);
+                    }
+                    catch (Exception exception)
+                    {
+                        _mw.AppendLogln("ERROR", "下载视频流时出错：" + exception.Message);
+                        Stop();
+                    }
+
+                    CheckStreaming();
                 }
-            }
-            else
+            }catch(Exception ex)
             {
-                _mw.AppendLogln("INFO", "[主播开始直播]");
-
-                if (!_autoStart || _flvDownloader.IsDownloading) return;
-                //准备查找下载地址
-                var pathFinder = new PathFinder(_mw);
-                
-                //查找真实下载地址
-                try
-                {
-                    if (_flvRunning) return;
-                    _flvRunning = true;
-                    _flvUrl = await pathFinder.GetTrueUrl(_roomid);
-                    _flvRunning = false;
-                }
-                catch
-                {
-                    _mw.AppendLogln("ERROR", "未取得下载地址");
-                    Stop();
-                    return; //停止并退出
-                }
-
-                _mw.AppendLogln("INFO", "下载地址已更新。");
-
-                _flvDownloader.Start(_flvUrl);
-                CheckStreaming();
+                _mw.AppendLogln("ERROR", "在收取弹幕时发生未知错误：" + ex.Message);
+                Stop();
             }
         }
 

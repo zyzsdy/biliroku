@@ -30,6 +30,7 @@ namespace BiliRoku.Bililivelib
         {
             IsOpen = true;
             StartWrite();
+            
             _cmtProvider.OnReceivedComment += _cmtProvider_OnReceivedComment;
         }
 
@@ -61,21 +62,29 @@ namespace BiliRoku.Bililivelib
         private StreamWriter _sw;
         private async void StartWrite()
         {
-            _fs = new FileStream(_xmlPath, FileMode.Create);
-            _sw = new StreamWriter(_fs, Encoding.GetEncoding("UTF-8"));
-            _sw.Write(XmlHeader);
+            try
+            {
+                _fs = new FileStream(_xmlPath, FileMode.Create);
+                _sw = new StreamWriter(_fs, Encoding.GetEncoding("UTF-8"));
+                _sw.Write(XmlHeader);
+            }
+            catch
+            {
+                ;
+            }
+            
             StartFlush();
             while (IsOpen)
             {
-                var cmt = await Dequeue();
-                if (cmt == null || cmt.MsgType != MsgTypeEnum.Comment) continue;
                 try
                 {
+                    var cmt = await Dequeue();
+                    if (cmt == null || cmt.MsgType != MsgTypeEnum.Comment) continue;
                     _sw.WriteLine(cmt.ToString(_nowTime));
                 }
                 catch
                 {
-                    ;
+                    continue;
                 }
             }
             try
@@ -109,12 +118,19 @@ namespace BiliRoku.Bililivelib
 
         private async void StartFlush()
         {
-            while (IsOpen)
+            try
             {
-                if (_sw == null) continue;
-                await _sw.FlushAsync();
-                await Task.Delay(30000);
+                while (IsOpen)
+                {
+                    if (_sw == null) continue;
+                    await _sw.FlushAsync();
+                    await Task.Delay(30000);
+                }
+            }catch
+            {
+
             }
+            
         }
     }
 }

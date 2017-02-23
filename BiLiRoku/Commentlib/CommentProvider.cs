@@ -36,28 +36,36 @@ namespace BiliRoku.Commentlib
 
         public async void Connect()
         {
-            var cmtHost = await GetCmtServer();
-
-            if(cmtHost == null)
+            try
             {
-                throw new Exception("无法获得弹幕服务器地址");
-            }
+                var cmtHost = await GetCmtServer();
 
-            //连接弹幕服务器
-            _client = new TcpClient();
-            await _client.ConnectAsync(cmtHost, CmtPort);
-            _netStream = _client.GetStream();
+                if (cmtHost == null)
+                {
+                    throw new Exception("无法获得弹幕服务器地址");
+                }
 
-            if (SendJoinChannel(int.Parse(_roomid)))
+                //连接弹幕服务器
+                _client = new TcpClient();
+                await _client.ConnectAsync(cmtHost, CmtPort);
+                _netStream = _client.GetStream();
+
+                if (SendJoinChannel(int.Parse(_roomid)))
+                {
+                    _connected = true;
+                    HeartbeatLoop();
+                    var thread = new Thread(ReceiveMessageLoop) { IsBackground = true };
+                    thread.Start();
+                }
+                else
+                {
+                    _mw.AppendLogln("ERROR", "加入频道失败");
+                    throw new Exception("Could't add the channel");
+                }
+            }catch(Exception e)
             {
-                _connected = true;
-                HeartbeatLoop();
-                var thread = new Thread(ReceiveMessageLoop) {IsBackground = true};
-                thread.Start();
-            }else
-            {
-                _mw.AppendLogln("ERROR", "加入频道失败");
-                throw new Exception("Could't add the channel");
+                _mw.AppendLogln("ERROR", e.Message);
+                _disconnect(e);
             }
         }
 
