@@ -48,11 +48,11 @@ namespace BiliRoku.Bililivelib
 
                 //从HTML中提取真实房间号
                 const string pattern = @"(?<=var ROOMID = )(\d+)(?=;)";
-                var colls = Regex.Matches(roomHtml, pattern);
-                foreach (Match mat in colls)
+                var colls = Regex.Match(roomHtml, pattern);
+                if (colls.Success)
                 {
-                    AddInfo("INFO", "真实房间号: " + mat.Value);
-                    return mat.Value;
+                    AddInfo("INFO", "真实房间号: " + colls.Value);
+                    return colls.Value;
                 }
 
                 AddInfo("ERROR", "获取真实房间号失败");
