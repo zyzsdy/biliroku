@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BiliRoku.MediaInfolib;
+using System;
 using System.ComponentModel;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using BiliRoku.Commentlib;
 using static System.IO.Path;
-using MediaInfo.DotNetWrapper;
 
 namespace BiliRoku.Bililivelib
 {
@@ -131,7 +131,7 @@ namespace BiliRoku.Bililivelib
             {
                 try
                 {
-                    var mi = new MediaInfo.DotNetWrapper.MediaInfo();
+                    var mi = new MediaInfo();
                     mi.Open(_compiledPath);
                     var durationStr = mi.Get(StreamKind.General, 0, "Duration");
                     var bitrateStr = mi.Get(StreamKind.Video, 0, "BitRate");
