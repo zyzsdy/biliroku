@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace BiliRoku.Bililivelib
 {
@@ -27,7 +26,7 @@ namespace BiliRoku.Bililivelib
             return Task.Run(() => {
                 AddInfo("INFO", "尝试获取真实房间号");
 
-                var roomWebPageUrl = "http://live.bilibili.com/" + originalRoomId;
+                var roomWebPageUrl = "https://api.live.bilibili.com/room/v1/Room/room_init?id=" + originalRoomId;
                 var wc = new WebClient();
                 wc.Headers.Add("Accept: text/html");
                 wc.Headers.Add("User-Agent: " + Ver.UA);
@@ -42,21 +41,27 @@ namespace BiliRoku.Bililivelib
                 }
                 catch (Exception e)
                 {
-                    AddInfo("ERROR", "打开直播页面失败：" + e.Message);
+                    AddInfo("ERROR", "直播初始化失败：" + e.Message);
                     return null;
                 }
 
-                //从HTML中提取真实房间号
-                const string pattern = @"(?<=var ROOMID = )(\d+)(?=;)";
-                var colls = Regex.Matches(roomHtml, pattern);
-                foreach (Match mat in colls)
+                //从返回结果中提取真实房间号
+                
+
+                try
                 {
-                    AddInfo("INFO", "真实房间号: " + mat.Value);
-                    return mat.Value;
+                    var result = JObject.Parse(roomHtml);
+                    var roomid = result["data"]["room_id"].ToString();
+                    AddInfo("INFO", "真实房间号: " + roomid);
+                    return roomid;
+                }
+                catch (Exception e)
+                {
+                    AddInfo("ERROR", "获取真实房间号失败：" + e.Message);
+                    return null;
                 }
 
-                AddInfo("ERROR", "获取真实房间号失败");
-                return null;
+                
             });
         }
 
@@ -68,21 +73,20 @@ namespace BiliRoku.Bililivelib
                     AddInfo("ERROR", "房间号获取错误。");
                     throw new Exception("No roomid");
                 }
-                var apiUrl = GetApiUrl(roomid);
+                var apiUrl = "https://api.live.bilibili.com/api/playurl?cid=" + roomid + "&otype=json&quality=0&platform=web";
                 SendStat(roomid);
 
-                //准备获取xml
-                string xmlResult;
-
-                //访问API获取xml
+                //访问API获取结果
                 var wc = new WebClient();
                 wc.Headers.Add("Accept: */*");
                 wc.Headers.Add("User-Agent: " + Ver.UA);
                 wc.Headers.Add("Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4");
 
+                string resultString;
+
                 try
                 {
-                    xmlResult = wc.DownloadString(apiUrl);
+                    resultString = wc.DownloadString(apiUrl);
                 }
                 catch (Exception e)
                 {
@@ -90,31 +94,19 @@ namespace BiliRoku.Bililivelib
                     throw;
                 }
 
-                //解析xml
-                var playUrlXml = new XmlDocument();
+                //解析结果
                 try
                 {
-                    playUrlXml.LoadXml(xmlResult);
+                    var jsonResult = JObject.Parse(resultString);
+                    var trueUrl = jsonResult["durl"][0]["url"].ToString();
+                    AddInfo("INFO", "地址解析成功：" + trueUrl);
+                    return trueUrl;
                 }
                 catch (Exception e)
                 {
                     AddInfo("ERROR", "解析XML失败：" + e.Message);
                     throw;
                 }
-
-                //获得解析结果
-                var result = playUrlXml.DocumentElement?.SelectSingleNode("/video/result");
-                if (result != null && result.InnerText != "suee")
-                {
-                    AddInfo("ERROR", "解析地址失败。");
-                    throw new Exception("No Avaliable download url in xml infomation.");
-                }
-                var turlNode = playUrlXml.DocumentElement?.SelectSingleNode("/video/durl/url");
-                if (turlNode == null) throw new NullReferenceException();
-                var trueUrl = turlNode.InnerText;
-
-                AddInfo("INFO", "地址解析成功：" + trueUrl);
-                return trueUrl;
             });
         }
 
@@ -136,6 +128,7 @@ namespace BiliRoku.Bililivelib
             }
         }
 
+        //@deprecated
         private static string GetApiUrl(string roomid)
         {
             //生成参数串
