@@ -45,6 +45,7 @@ namespace BiliRoku
                 wc.Headers.Add("Accept: application/json;q=0.9,*/*;q=0.5");
                 wc.Headers.Add("User-Agent: " + Ver.UA);
                 wc.Headers.Add("Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4");
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
                 //发送HTTP请求获取Release信息
                 string releaseJson = null;
