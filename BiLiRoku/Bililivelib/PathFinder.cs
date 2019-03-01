@@ -73,7 +73,7 @@ namespace BiliRoku.Bililivelib
                     AddInfo("ERROR", "房间号获取错误。");
                     throw new Exception("No roomid");
                 }
-                var apiUrl = "https://api.live.bilibili.com/api/playurl?cid=" + roomid + "&otype=json&quality=0&platform=web";
+                var apiUrl = "https://api.live.bilibili.com/room/v1/Room/playUrl?cid=" + roomid + "&otype=json&quality=0&platform=web";
                 SendStat(roomid);
 
                 //访问API获取结果
@@ -98,13 +98,13 @@ namespace BiliRoku.Bililivelib
                 try
                 {
                     var jsonResult = JObject.Parse(resultString);
-                    var trueUrl = jsonResult["durl"][0]["url"].ToString();
+                    var trueUrl = jsonResult["data"]["durl"][0]["url"].ToString();
                     AddInfo("INFO", "地址解析成功：" + trueUrl);
                     return trueUrl;
                 }
                 catch (Exception e)
                 {
-                    AddInfo("ERROR", "解析XML失败：" + e.Message);
+                    AddInfo("ERROR", "视频流地址解析失败：" + e.Message);
                     throw;
                 }
             });

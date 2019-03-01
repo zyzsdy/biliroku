@@ -14,7 +14,7 @@ namespace BiliRoku.Commentlib
 {
     internal class CommentProvider
     {
-        private const int CmtPort = 788;
+        private const int CmtPort = 2243;
         private readonly string _roomid;
         private readonly MainWindow _mw;
         private bool _connected; //连接情况

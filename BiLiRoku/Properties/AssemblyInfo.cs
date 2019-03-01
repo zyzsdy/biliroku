@@ -8,11 +8,11 @@ using System.Windows;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("BiLiRoku")]
-[assembly: AssemblyDescription("bilibili生放送录制")]
+[assembly: AssemblyDescription("bilibili直播录制")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Zyzsdy")]
 [assembly: AssemblyProduct("BiLiRoku")]
-[assembly: AssemblyCopyright("Copyright © Zyzsdy 2015-2017")]
+[assembly: AssemblyCopyright("Copyright © Zyzsdy 2015-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.0.0")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyVersion("1.5.1.0")]
+[assembly: AssemblyFileVersion("1.5.1.0")]
 [assembly: Guid("0e57f63c-b0b9-4430-95de-c066caa9cc1e")]
 

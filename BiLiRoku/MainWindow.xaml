@@ -17,7 +17,7 @@
             </TextBox.SelectionBrush>
         </TextBox>
         <Label x:Name="roomIdTextLabel" Content="房间号：http://live.bilibili.com/" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="roomIdBox" HorizontalAlignment="Left" Height="25" Margin="196,15,0,0" Text="10112" VerticalAlignment="Top" Width="124" VerticalContentAlignment="Center" TextChanged="roomIdBox_TextChanged"/>
+        <TextBox x:Name="roomIdBox" HorizontalAlignment="Left" Height="25" Margin="196,15,0,0" Text="12564" VerticalAlignment="Top" Width="124" VerticalContentAlignment="Center" TextChanged="roomIdBox_TextChanged"/>
         <Label x:Name="savepathTextLabel" Content="保存路径：" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Cursor="Hand" MouseLeftButtonUp="savepathTextLabel_MouseLeftButtonUp"/>
         <TextBox x:Name="savepathBox" HorizontalAlignment="Left" Height="25" Margin="80,54,0,0" VerticalAlignment="Top" Width="199" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="savepathBox_TextChanged"/>
         <Button x:Name="openSavepathConfigDialogButton" Content="设置..." HorizontalAlignment="Left" Margin="284,54,0,0" VerticalAlignment="Top" Width="63" Height="25" Click="openSavepathConfigDialogButton_Click"/>
@@ -39,7 +39,7 @@
                     <Label Content="录制时间"/>
                     <Label Content="比特率"/>
                     <Label Content="传输大小"/>
-                    <Label Content="直播间人数"/>
+                    <Label Content="人气值"/>
                 </StackPanel>
                 <StackPanel Height="127" Canvas.Left="73" Width="72">
                     <Label x:Name="LiveStatus" Content="检测中" HorizontalContentAlignment="Right"/>

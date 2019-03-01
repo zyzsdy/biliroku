@@ -197,6 +197,8 @@ namespace BiliRoku.Bililivelib
         {
             try
             {
+                //DEBUG: 弹幕显示测试
+                _mw.AppendLogln("收到弹幕", e.Comment.CommentUser + ": " + e.Comment.CommentText);
                 //接收到弹幕时的处理。
                 if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
                 {
