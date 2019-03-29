@@ -19,7 +19,7 @@ namespace BiliRoku
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _config = new Config();
+            _config = Config.Instance;
             _sfd = new SaveFileDialog {FileName = "savefile.flv"};
             if (_config.SavePath != null)
             {
@@ -30,6 +30,17 @@ namespace BiliRoku
             {
                 FilenameBox.Text = _config.Filename;
             }
+            if (_config.RefreshTime != null)
+            {
+                refreshTimeBox.Text = _config.RefreshTime;
+            }
+            if (_config.Timeout != null)
+            {
+                timeoutBox.Text = _config.Timeout;
+            }
+            SaveCommetCheckBox.IsChecked = _config.IsDownloadComment;
+            AutoRecordCheckBox.IsChecked = _config.IsWaitStreaming;
+            AutoRetryCheckBox.IsChecked = _config.IsAutoRetry;
         }
 
         private void OpenSaveDialogButton_Click(object sender, RoutedEventArgs e)
@@ -37,22 +48,6 @@ namespace BiliRoku
             if(_sfd.ShowDialog() == true)
             {
                 SaveDirBox.Text = System.IO.Path.GetDirectoryName(_sfd.FileName);
-            }
-        }
-
-        private void SaveDirBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_config != null)
-            {
-                _config.SavePath = SaveDirBox.Text;
-            }
-        }
-
-        private void FilenameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_config != null)
-            {
-                _config.Filename = FilenameBox.Text;
             }
         }
 
@@ -86,12 +81,29 @@ namespace BiliRoku
                     return;
                 }
             }
+            if (_config != null)
+            {
+                _config.SavePath = SaveDirBox.Text;
+                _config.Filename = FilenameBox.Text;
+                _config.RefreshTime = refreshTimeBox.Text;
+                _config.Timeout = timeoutBox.Text;
+                _config.IsDownloadComment = SaveCommetCheckBox.IsChecked ?? false;
+                _config.IsWaitStreaming = AutoRecordCheckBox.IsChecked ?? false;
+                _config.IsAutoRetry = AutoRetryCheckBox.IsChecked ?? false;
+            }
             DialogResult = true;
             Close();
         }
 
-        public string SavePath => SaveDirBox.Text;
+        private void SaveNameHelp_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(this, @"说明：
 
-        public string Filename => FilenameBox.Text;
+{roomid}--房间号 {title}--房间名 {username}--主播用户名
+{Y}--年 {M}--月 {d}--日
+{h}--时 {m}--分 {s}--秒
+注：若文件名中不含时间变量，则为固定文件名，固定文件名可能会被覆盖。
+文件名中也可出现“\”字符，这时会建立子目录。", "保存文件名变量说明", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

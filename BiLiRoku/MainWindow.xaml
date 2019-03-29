@@ -5,51 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BiliRoku"
         mc:Ignorable="d"
-        Title="BiliRoku - bilibili直播录制" Background="#FFF6F6F6" MinWidth="710" MinHeight="330" Width="710" Height="330" Icon="pack://siteoforigin:,,,/icon.ico" Loaded="Window_Loaded">
+        Title="Biliroku - bilibili直播录制" Background="#FFF6F6F6" MinWidth="750" MinHeight="270" Width="1022" Height="714" Icon="Resources/icon.ico" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="352"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="infoBlock" Grid.Column="1" Margin="10" TextWrapping="Wrap" Background="White" Padding="5" UndoLimit="2" BorderBrush="{x:Null}" VerticalScrollBarVisibility="Auto" IsUndoEnabled="False" IsReadOnly="True" IsTabStop="False" BorderThickness="0" TextChanged="infoBlock_TextChanged">
-            <TextBox.SelectionBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionColorKey}}"/>
-            </TextBox.SelectionBrush>
-        </TextBox>
-        <Label x:Name="roomIdTextLabel" Content="房间号：http://live.bilibili.com/" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="roomIdBox" HorizontalAlignment="Left" Height="25" Margin="196,15,0,0" Text="12564" VerticalAlignment="Top" Width="124" VerticalContentAlignment="Center" TextChanged="roomIdBox_TextChanged"/>
-        <Label x:Name="savepathTextLabel" Content="保存路径：" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" Cursor="Hand" MouseLeftButtonUp="savepathTextLabel_MouseLeftButtonUp"/>
-        <TextBox x:Name="savepathBox" HorizontalAlignment="Left" Height="25" Margin="80,54,0,0" VerticalAlignment="Top" Width="199" VerticalContentAlignment="Center" IsReadOnly="True" TextChanged="savepathBox_TextChanged"/>
-        <Button x:Name="openSavepathConfigDialogButton" Content="设置..." HorizontalAlignment="Left" Margin="284,54,0,0" VerticalAlignment="Top" Width="63" Height="25" Click="openSavepathConfigDialogButton_Click"/>
-        <StackPanel HorizontalAlignment="Left" Height="80" Margin="10,93,0,0" VerticalAlignment="Top" Width="175">
-            <Label x:Name="recordOptionTextLabel" Content="录制选项：" Margin="0,0,0.143,0" RenderTransformOrigin="0.574,0.318" Height="25"/>
-            <CheckBox x:Name="saveCommentCheckBox" Content="同时保存弹幕" Height="20" Margin="0,0,-0.286,0" VerticalContentAlignment="Center" IsChecked="True" Click="saveCommentCheckBox_Click"/>
-            <CheckBox x:Name="waitForStreamCheckBox" Content="等待主播推流后自动开始" Height="20" Margin="0,0,-0.286,0" VerticalContentAlignment="Center" IsChecked="True" Click="waitForStreamCheckBox_Click"/>
-        </StackPanel>
-        <Button x:Name="startButton" Content="开始" Margin="10,0,0,45" VerticalAlignment="Bottom" Width="162" Height="79" HorizontalAlignment="Left" HorizontalContentAlignment="Center" FontSize="36" Click="startButton_Click"/>
-        <Label x:Name="aboutLinkLabel" Content="关于 BiliRoku" HorizontalAlignment="Left" Margin="10,0,0,10" Height="25" VerticalAlignment="Bottom" Cursor="Hand" MouseLeftButtonUp="aboutLinkLabel_MouseLeftButtonUp">
+        <TextBox x:Name="infoBlock" Grid.Column="1" Margin="10" TextWrapping="Wrap" Padding="5" UndoLimit="2" VerticalScrollBarVisibility="Auto" IsUndoEnabled="False" IsReadOnly="True" IsTabStop="False" BorderThickness="1" TextChanged="infoBlock_TextChanged" Background="White" SelectionBrush="#660078D7"/>
+        <Label x:Name="aboutLinkLabel" Content="关于 BiliRoku" Margin="0,10,10,0" Cursor="Hand" MouseLeftButtonUp="aboutLinkLabel_MouseLeftButtonUp" HorizontalAlignment="Right" Width="84" Height="25" VerticalAlignment="Top">
             <Label.Foreground>
                 <SolidColorBrush Color="#FF0066CC"/>
             </Label.Foreground>
         </Label>
-        <GroupBox x:Name="RecordStatusGroupBox" Header="录制状态" HorizontalAlignment="Left" Margin="185,97,0,0" VerticalAlignment="Top" Height="160" Width="157" Visibility="Hidden">
-            <Canvas Margin="0,0,0,0">
-                <StackPanel Height="127" Width="73">
-                    <Label Content="主播状态"/>
-                    <Label Content="录制时间"/>
-                    <Label Content="比特率"/>
-                    <Label Content="传输大小"/>
-                    <Label Content="人气值"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" VerticalAlignment="Top" Width="694">
+            <Button x:Name="addRoomButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="AddRoomButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/icon_add_36.png" Width="16" Height="16"></Image>
+                    <Label VerticalAlignment="Center" Content="添加直播间"/>
                 </StackPanel>
-                <StackPanel Height="127" Canvas.Left="73" Width="72">
-                    <Label x:Name="LiveStatus" Content="检测中" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="RecordTimeStatus" Content="00:00:00" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="BitrateStatus" Content="0 Kbps" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="SizeStatus" Content="0 MB" HorizontalContentAlignment="Right"/>
-                    <Label x:Name="ViewerCountStatus" Content="0" HorizontalContentAlignment="Right"/>
+            </Button>
+            <Button x:Name="RefreshAllButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="RefreshAllButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/icon_refresh_36.png" Width="16" Height="16"></Image>
+                    <Label VerticalAlignment="Center" Content="全部刷新"/>
                 </StackPanel>
-            </Canvas>
-        </GroupBox>
-
+            </Button>
+            <Button x:Name="openSettingButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="OpenSettingButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/icon_settings_36.png" Width="16" Height="16"></Image>
+                    <Label VerticalAlignment="Center" Content="设置"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <ListView x:Name="roomListView" Margin="10,50,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="#FFABADB3" Background="{x:Null}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="300" Height="150">
+                        <Button x:Name="deleteRoom" Height="20" Width="20" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Click="DeleteRoom_Click">
+                            <Image Source="Resources/icon_close_36.png" Width="16" Height="16"></Image>
+                        </Button>
+                        <Label Content="{Binding Roomid}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding Title}" Margin="0,25,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding Username}" Margin="0,50,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding OnlineValue}" Margin="0,50,5,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        <Label Content="正在直播" Margin="0,75,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF5AA456" Visibility="{Binding IsLiveStatus}"/>
+                        <Label Content="未直播" Margin="0,75,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFE84A4A" Visibility="{Binding NotLiveStatus}"/>
+                        <Label Content="{Binding RecordTime}" Margin="0,75,165,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="72"/>
+                        <Label Content="{Binding BitRate}" Margin="0,75,88,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="72"/>
+                        <Label Content="{Binding RecordSize}" Margin="0,75,10,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        <Button x:Name="RoomTaskMainButton" Margin="0,0,10,10" Height="30" Width="90" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="{Binding MainButtonText}" Click="RoomTaskMainButton_Click"/>
+                        <Label Content="刷新信息..." Margin="10,115,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding Refreshing}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </Grid>
 </Window>

@@ -9,13 +9,12 @@ using static System.IO.Path;
 
 namespace BiliRoku.Bililivelib
 {
-    internal class FlvDownloader
+    public class FlvDownloader
     {
         public bool IsDownloading { get; private set; }
         
         private readonly string _savePath;
         private readonly string _roomid;
-        private string _compiledPath;
         private readonly bool _saveComment;
         private WebClient _wc;
         private readonly CommentProvider _cmtProvider;
@@ -31,7 +30,6 @@ namespace BiliRoku.Bililivelib
         public FlvDownloader(string roomid, string savePath, bool saveComment, CommentProvider cmtProvider)
         {
             _savePath = savePath;
-            _roomid = roomid;
             _saveComment = saveComment;
             _cmtProvider = cmtProvider;
         }
@@ -48,21 +46,20 @@ namespace BiliRoku.Bililivelib
             _wc.DownloadFileCompleted += StopDownload;
             _wc.DownloadProgressChanged += ShowProgress;
 
-            _compiledPath = CompilePath(_savePath, _roomid);
             IsDownloading = true;
             
             //如果目录不存在，那么先创建目录。
             // ReSharper disable AssignNullToNotNullAttribute
-            if (!System.IO.Directory.Exists(GetDirectoryName(_compiledPath)))
+            if (!System.IO.Directory.Exists(GetDirectoryName(_savePath)))
             {
-                System.IO.Directory.CreateDirectory(GetDirectoryName(_compiledPath));
+                System.IO.Directory.CreateDirectory(GetDirectoryName(_savePath));
             }
             // ReSharper restore AssignNullToNotNullAttribute
             var startTimestamp = Convert.ToInt64((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalMilliseconds);
-            _wc.DownloadFileAsync(new Uri(uri), _compiledPath);
+            _wc.DownloadFileAsync(new Uri(uri), _savePath);
             //如果勾选了“同时保存弹幕”，则开始下载弹幕
             if (!_saveComment) return;
-            var xmlPath = ChangeExtension(_compiledPath, "xml");
+            var xmlPath = ChangeExtension(_savePath, "xml");
             _xmlBuilder = new CommentBuilder(xmlPath, startTimestamp, _cmtProvider);
             try
             {
@@ -97,7 +94,7 @@ namespace BiliRoku.Bililivelib
             Stop();
         }
 
-        public void Stop(bool force=false)
+        public void Stop(bool force = false)
         {
             _wc.CancelAsync();
             _wc.Dispose();
@@ -113,18 +110,6 @@ namespace BiliRoku.Bililivelib
             IsDownloading = false;
         }
 
-        public static string CompilePath(string path, string roomid)
-        {
-            path = path.Replace("{roomid}", roomid);
-            path = path.Replace("{Y}", DateTime.Now.Year.ToString());
-            path = path.Replace("{M}", DateTime.Now.Month.ToString());
-            path = path.Replace("{d}", DateTime.Now.Day.ToString());
-            path = path.Replace("{H}", DateTime.Now.Hour.ToString());
-            path = path.Replace("{m}", DateTime.Now.Minute.ToString());
-            path = path.Replace("{s}", DateTime.Now.Second.ToString());
-            return path;
-        }
-
         private async void GetFlvInfo()
         {
             await Task.Run(() =>
@@ -132,7 +117,7 @@ namespace BiliRoku.Bililivelib
                 try
                 {
                     var mi = new MediaInfo();
-                    mi.Open(_compiledPath);
+                    mi.Open(_savePath);
                     var durationStr = mi.Get(StreamKind.General, 0, "Duration");
                     var bitrateStr = mi.Get(StreamKind.Video, 0, "BitRate");
 

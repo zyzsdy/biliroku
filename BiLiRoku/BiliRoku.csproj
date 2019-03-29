@@ -60,7 +60,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -109,10 +109,12 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddRoom.xaml.cs">
+      <DependentUpon>AddRoom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bililivelib\BiliApiKeyInfo.cs" />
     <Compile Include="Bililivelib\CommentBuilder.cs" />
     <Compile Include="Bililivelib\Downloader.cs" />
-    <Compile Include="Bililivelib\Events.cs" />
     <Compile Include="Bililivelib\FlvDownloader.cs" />
     <Compile Include="Bililivelib\PathFinder.cs" />
     <Compile Include="Commentlib\CommentModel.cs" />
@@ -120,12 +122,18 @@
     <Compile Include="Commentlib\Events.cs" />
     <Compile Include="Commentlib\Utils.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="InfoLogger.cs" />
     <Compile Include="MediaInfolib\MediaInfoDLL.cs" />
+    <Compile Include="RoomList.cs" />
     <Compile Include="SavePathSetting.xaml.cs">
       <DependentUpon>SavePathSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Version.cs" />
     <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddRoom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,11 +184,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="icon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5.2 %28x86 和 x64%29</ProductName>
@@ -197,6 +200,12 @@
     <Content Include="MediaInfo.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\icon_help_outline_36.png" />
+    <Resource Include="Resources\icon_close_36.png" />
+    <Resource Include="Resources\icon_settings_36.png" />
+    <Resource Include="Resources\icon_refresh_36.png" />
+    <Resource Include="Resources\icon.ico" />
+    <Resource Include="Resources\icon_add_36.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

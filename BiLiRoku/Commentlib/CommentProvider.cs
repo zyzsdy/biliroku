@@ -12,11 +12,10 @@ using System.Xml;
 // Github: copyliu/bilibili_dm
 namespace BiliRoku.Commentlib
 {
-    internal class CommentProvider
+    public class CommentProvider
     {
         private const int CmtPort = 2243;
         private readonly string _roomid;
-        private readonly MainWindow _mw;
         private bool _connected; //连接情况
 
         private TcpClient _client;
@@ -28,9 +27,8 @@ namespace BiliRoku.Commentlib
         public event DisconnectEvt OnDisconnected;
         public event ReceivedRoomCountEvt OnReceivedRoomCount;
 
-        public CommentProvider(string roomid, MainWindow mw)
+        public CommentProvider(string roomid)
         {
-            _mw = mw;
             _roomid = roomid;
         }
 
@@ -59,12 +57,12 @@ namespace BiliRoku.Commentlib
                 }
                 else
                 {
-                    _mw.AppendLogln("ERROR", "加入频道失败");
+                    InfoLogger.SendInfo(_roomid, "ERROR", "加入频道失败");
                     throw new Exception("Could't add the channel");
                 }
             }catch(Exception e)
             {
-                _mw.AppendLogln("ERROR", e.Message);
+                InfoLogger.SendInfo(_roomid, "ERROR", e.Message);
                 _disconnect(e);
             }
         }
@@ -172,7 +170,7 @@ namespace BiliRoku.Commentlib
             }
             catch (Exception e)
             {
-                _mw.AppendLogln("ERROR", e.Message);
+                InfoLogger.SendInfo(_roomid, "ERROR", e.Message);
                 _disconnect(e);
             }
         }
@@ -195,7 +193,7 @@ namespace BiliRoku.Commentlib
         private void _disconnect(Exception e)
         {
             if (!_connected) return;
-            _mw.AppendLogln("INFO", "连接断开");
+            InfoLogger.SendInfo(_roomid, "INFO", "连接断开");
             _connected = false;
             _client.Close();
             _netStream = null;
@@ -259,7 +257,7 @@ namespace BiliRoku.Commentlib
         {
             return Task.Run(() => {
                 //获取真实弹幕服务器地址。
-                _mw.AppendLogln("INFO", "开始解析弹幕服务器");
+                InfoLogger.SendInfo(_roomid, "INFO", "开始解析弹幕服务器");
 
                 var chatWc = new WebClient();
                 chatWc.Headers.Add("Accept: */*");
@@ -274,7 +272,7 @@ namespace BiliRoku.Commentlib
                 }
                 catch (Exception e)
                 {
-                    _mw.AppendLogln("ERROR", "无法解析弹幕服务器：" + e.Message);
+                    InfoLogger.SendInfo(_roomid, "ERROR", "无法解析弹幕服务器：" + e.Message);
                     throw;
                 }
 
@@ -287,15 +285,15 @@ namespace BiliRoku.Commentlib
                 }
                 catch (Exception e)
                 {
-                    _mw.AppendLogln("ERROR", "解析XML失败：" + e.Message);
+                    InfoLogger.SendInfo(_roomid, "ERROR", "解析XML失败：" + e.Message);
                     throw;
                 }
 
                 //取得弹幕服务器Url
-                var serverNode = chatXml.DocumentElement?.SelectSingleNode("/root/server");
+                var serverNode = chatXml.DocumentElement?.SelectSingleNode("/root/dm_server");
                 var cmtServerUrl = serverNode?.InnerText;
 
-                _mw.AppendLogln("INFO", "解析弹幕服务器地址成功：" + cmtServerUrl);
+                InfoLogger.SendInfo(_roomid, "INFO", "解析弹幕服务器地址成功：" + cmtServerUrl);
                 return cmtServerUrl;
             });
         }

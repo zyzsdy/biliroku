@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BiliRoku"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="BiliRoku.About"
         mc:Ignorable="d"
-        Title="关于 BiliRoku" Height="308.124" Width="506.945" Foreground="Black" Background="#FFF6F6F6" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Icon="pack://siteoforigin:,,,/icon.ico" Loaded="Window_Loaded">
+        Title="关于 BiliRoku" Height="308.124" Width="506.945" Foreground="Black" Background="#FFF6F6F6" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Icon="Resources/icon.ico" Loaded="Window_Loaded">
     <Window.InputBindings>
         <KeyBinding Modifiers="Alt" Key="C" Command="{DynamicResource CloseThisDialog}"/>
     </Window.InputBindings>
@@ -21,7 +21,7 @@
             <ColumnDefinition Width="129*"/>
             <ColumnDefinition Width="335*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="image" Height="61" Margin="0,24,10.143,0" VerticalAlignment="Top" Source="pack://siteoforigin:,,,/icon.ico" HorizontalAlignment="Right" Width="63"/>
+        <Image x:Name="image" Height="61" Margin="0,24,10.143,0" VerticalAlignment="Top" Source="Resources/icon.ico" HorizontalAlignment="Right" Width="63"/>
         <Label x:Name="AboutTitleTextLabel" Content="BiliRoku" Grid.Column="1" HorizontalAlignment="Left" Margin="12.857,24,0,0" VerticalAlignment="Top"/>
         <Label x:Name="VersionTextLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="72.857,24,0,0" VerticalAlignment="Top" Content="v"/>
         <Button x:Name="OkButton" Content="关闭(C)" Grid.Column="1" HorizontalAlignment="Left" Margin="236.571,230,0,0" VerticalAlignment="Top" Width="79" IsDefault="True" Height="26" AutomationProperties.AcceleratorKey="Alt+C" Click="OkButton_Click"/>

@@ -1,0 +1,15 @@
+﻿<Window x:Class="BiliRoku.AddRoom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BiliRoku"
+        mc:Ignorable="d"
+        Title="添加直播间" Height="170" Width="540" Icon="Resources/icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" Background="#FFF6F6F6" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+    <Grid>
+        <Label Content="输入直播间ID：https://live.bilibili.com/" HorizontalAlignment="Left" Margin="26,30,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="roomid" HorizontalAlignment="Left" Height="23" Margin="253,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242"/>
+        <Button x:Name="OkButton" Content="确定" HorizontalAlignment="Left" Margin="343,87,0,0" VerticalAlignment="Top" Width="82" IsDefault="True" Height="28" Click="OkButton_Click"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="430,87,0,0" VerticalAlignment="Top" Width="86" IsCancel="True" Height="28"/>
+    </Grid>
+</Window>

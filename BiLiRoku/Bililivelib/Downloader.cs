@@ -4,138 +4,116 @@ using System.Threading.Tasks;
 
 namespace BiliRoku.Bililivelib
 {
-    internal class Downloader
+    public delegate void DownloadInfoEvt(object sender, DownloadInfoArgs e);
+    public delegate void DownloaderStopHandler(object sender);
+
+    public class DownloadInfoArgs
     {
-        public bool IsRunning { get; private set; }
-        private readonly MainWindow _mw;
+        public long Bytes;
+        public string Duration;
+        public int Bitrate;
+    }
+
+    public class Downloader
+    {
+        public event DownloadInfoEvt OnDownloadInfoUpdate;
+        public event DownloaderStopHandler OnStop;
+
+        public bool IsRunning { get; private set; } = false;
+        public FlvDownloader flvDownloader;
+
         private string _roomid;
         private string _flvUrl;
-        private bool _flvRunning;
         private CommentProvider _commentProvider;
-        private FlvDownloader _flvDownloader;
         private long _recordedSize;
 
         private bool _downloadCommentOption = true;
-        private bool _autoStart = true;
+        private bool _autoRetry = true;
+        private int _streamTimeout;
 
-        public Downloader(MainWindow mw)
+        public Downloader(string roomid, CommentProvider cmtProvider)
         {
-            _mw = mw;
-            IsRunning = false;
-            _flvRunning = false;
+            _commentProvider = cmtProvider;
+            _roomid = roomid;
         }
 
-        public async void Start()
+        public async void Start(string savepath)
         {
             try
             {
-                _mw.SetProcessingBtn();
                 if (IsRunning)
                 {
-                    _mw.AppendLogln("ERROR", "已经是运行状态了。");
+                    InfoLogger.SendInfo(_roomid, "ERROR", "已经是运行状态了。");
                     return;
                 }
                 //设置运行状态。
                 IsRunning = true;
 
                 //读取设置
-                var originalRoomId = _mw.roomIdBox.Text;
-                var savepath = _mw.savepathBox.Text;
-                _downloadCommentOption = _mw.saveCommentCheckBox.IsChecked ?? true;
-                _autoStart = _mw.waitForStreamCheckBox.IsChecked ?? true;
+                var config = Config.Instance;
+                _downloadCommentOption = config.IsDownloadComment;
+                _autoRetry = config.IsAutoRetry;
+                _streamTimeout = int.Parse(config.Timeout ?? "2000");
 
-                //准备查找下载地址
-                var pathFinder = new PathFinder(_mw);
-                //查找真实房间号
-                _roomid = await pathFinder.GetRoomid(originalRoomId);
-                if (_roomid != null)
-                {
-                    _mw.SetStartBtn();
-                }
-                else
-                {
-                    _mw.AppendLogln("ERROR", "未取得真实房间号");
-                    Stop();
-                    return; //停止并退出
-                }
-                //查找真实下载地址
+                //获取真实下载地址
                 try
                 {
-                    _flvUrl = await pathFinder.GetTrueUrl(_roomid);
+                    _flvUrl = await PathFinder.GetTrueUrl(_roomid);
                 }
                 catch
                 {
-                    _mw.AppendLogln("ERROR", "未取得下载地址");
+                    InfoLogger.SendInfo(_roomid, "ERROR", "未取得下载地址");
                     Stop();
                     return; //停止并退出
                 }
 
-                var cmtProvider = ReceiveComment();
-                _flvDownloader = new FlvDownloader(_roomid, savepath, _downloadCommentOption, cmtProvider);
-                _flvDownloader.Info += _flvDownloader_Info;
+                flvDownloader = new FlvDownloader(_roomid, savepath, _downloadCommentOption, _commentProvider);
+                flvDownloader.Info += _flvDownloader_Info;
                 CheckStreaming();
                 try
                 {
-                    _flvDownloader.Start(_flvUrl);
+                    flvDownloader.Start(_flvUrl);
                 }
                 catch (Exception e)
                 {
-                    _mw.AppendLogln("ERROR", "下载视频流时出错：" + e.Message);
+                    InfoLogger.SendInfo(_roomid, "ERROR", "下载视频流时出错：" + e.Message);
                     Stop();
                 }
             }catch(Exception e)
             {
-                _mw.AppendLogln("ERROR", "未知错误：" + e.Message);
+                InfoLogger.SendInfo(_roomid, "ERROR", "未知错误：" + e.Message);
                 Stop();
             }
         }
 
         private void _flvDownloader_Info(object sender, DownloadInfoArgs e)
         {
-            _mw.Dispatcher.Invoke(() =>
-            {
-                _mw.RecordTimeStatus.Content = e.Duration;
-                _mw.BitrateStatus.Content = e.Bitrate / 1000.0f + "Kbps";
-                _mw.SizeStatus.Content = FormatSize(e.Bytes);
-            });
+            OnDownloadInfoUpdate?.Invoke(sender, e);
             _recordedSize = e.Bytes;
         }
 
         private async void CheckStreaming()
         {
-            await Task.Delay(2000);
+            await Task.Delay(_streamTimeout);
             try
             {
-                if (_flvDownloader == null)
+                if (flvDownloader == null)
                 {
                     return;
                 }
                 if (_recordedSize <= 1)
                 {
-                    if (_flvDownloader.IsDownloading)
-                    {
-                        _flvDownloader.Stop();
-                    }
-                    _mw.Dispatcher.Invoke(() =>
-                    {
-                        _mw.LiveStatus.Content = "未直播";
-                    });
-                }
-                else
-                {
-                    _mw.Dispatcher.Invoke(() =>
-                    {
-                        _mw.LiveStatus.Content = "正在直播";
-                    });
+                    InfoLogger.SendInfo(_roomid, "INFO", "接收流超时。");
+                    Stop();
                 }
             }catch(Exception ex)
             {
-                _mw.AppendLogln("ERROR", "在检查直播状态时发生未知错误：" + ex.Message);
+                InfoLogger.SendInfo(_roomid, "ERROR", "在检查直播状态时发生未知错误：" + ex.Message);
                 Stop();
             }
         }
 
-        private static string FormatSize(long size)
+        public static string FormatSize(long size)
         {
             if (size <= 1024)
             {
@@ -162,118 +140,18 @@ namespace BiliRoku.Bililivelib
             {
                 IsRunning = false;
                 _recordedSize = 0;
-                if (_flvDownloader != null)
+                if (flvDownloader != null)
                 {
-                    _flvDownloader.Stop();
-                    _flvDownloader = null;
+                    flvDownloader.Stop();
+                    flvDownloader = null;
                 }
-                _commentProvider?.Disconnect();
-                _mw.AppendLogln("INFO", "停止");
-            }else
-            {
-                _mw.AppendLogln("ERROR", "已经是停止状态了");
+                InfoLogger.SendInfo(_roomid, "INFO", "停止");
+                OnStop?.Invoke(this);
             }
-            _mw.SetStopBtn();
-        }
-
-        private CommentProvider ReceiveComment()
-        {
-            try
+            else
             {
-                _commentProvider = new CommentProvider(_roomid, _mw);
-                _commentProvider.OnDisconnected += CommentProvider_OnDisconnected;
-                _commentProvider.OnReceivedRoomCount += CommentProvider_OnReceivedRoomCount;
-                _commentProvider.OnReceivedComment += CommentProvider_OnReceivedComment;
-                _commentProvider.Connect();
-                return _commentProvider;
-            }catch(Exception e)
-            {
-                _mw.AppendLogln("ERROR", "弹幕服务器出错：" + e.Message);
-                return null;
+                InfoLogger.SendInfo(_roomid, "ERROR", "已经是停止状态了");
             }
-        }
-
-        private async void CommentProvider_OnReceivedComment(object sender, ReceivedCommentArgs e)
-        {
-            try
-            {
-                //DEBUG: 弹幕显示测试
-                _mw.AppendLogln("收到弹幕", e.Comment.CommentUser + ": " + e.Comment.CommentText);
-                //接收到弹幕时的处理。
-                if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
-                {
-                    if (e.Comment.MsgType != MsgTypeEnum.LiveEnd) return;
-                    _mw.AppendLogln("INFO", "[主播结束直播]");
-                    _flvDownloader?.Stop();
-                    if (!_autoStart)
-                    {
-                        Stop();
-                    }
-                    else
-                    {
-                        _mw.Dispatcher.Invoke(() => { _mw.LiveStatus.Content = "未直播"; });
-                    }
-                }
-                else
-                {
-                    _mw.AppendLogln("INFO", "[主播开始直播]");
-
-                    if (!_autoStart || _flvDownloader.IsDownloading) return;
-                    //准备查找下载地址
-                    var pathFinder = new PathFinder(_mw);
-
-                    //查找真实下载地址
-                    try
-                    {
-                        if (_flvRunning) return;
-                        _flvRunning = true;
-                        _flvUrl = await pathFinder.GetTrueUrl(_roomid);
-                        _flvRunning = false;
-                    }
-                    catch
-                    {
-                        _mw.AppendLogln("ERROR", "未取得下载地址");
-                        Stop();
-                        return; //停止并退出
-                    }
-
-                    _mw.AppendLogln("INFO", "下载地址已更新。");
-
-                    try
-                    {
-                        _flvDownloader.Start(_flvUrl);
-                    }
-                    catch (Exception exception)
-                    {
-                        _mw.AppendLogln("ERROR", "下载视频流时出错：" + exception.Message);
-                        Stop();
-                    }
-
-                    CheckStreaming();
-                }
-            }catch(Exception ex)
-            {
-                _mw.AppendLogln("ERROR", "在收取弹幕时发生未知错误：" + ex.Message);
-                Stop();
-            }
-        }
-
-        private void CommentProvider_OnReceivedRoomCount(object sender, ReceivedRoomCountArgs e)
-        {
-            _mw.Dispatcher.Invoke(() =>
-            {
-                _mw.ViewerCountStatus.Content = e.UserCount.ToString();
-            });
-        }
-
-        private void CommentProvider_OnDisconnected(object sender, DisconnectEvtArgs e)
-        {
-            _mw.AppendLogln("INFO", "弹幕服务器断开");
-
-            //如果不是用户触发的，则尝试重连。
-            if (!IsRunning) return;
-            _mw.AppendLogln("INFO", "尝试重新连接弹幕服务器");
-            _commentProvider.Connect();
         }
     }
 }

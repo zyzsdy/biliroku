@@ -4,15 +4,29 @@ using System.Diagnostics;
 
 namespace BiliRoku
 {
-    internal class Config
+    public class Config
     {
+        static Config()
+        {
+
+        }
+
+        private Config()
+        {
+            Init();
+        }
+
+        public static Config Instance { get; } = new Config();
+
         private string _version;
         private string _roomId;
-        private string _saveLocation;
         private string _savePath;
         private string _filename;
+        private string _refreshTime;
+        private string _timeout;
         private string _isDownloadCmt = "True";
         private string _isWaitStreaming = "True";
+        private string _isAutoRetry = "True";
 
         public string Version
         {
@@ -36,18 +50,6 @@ namespace BiliRoku
             {
                 Write("room_id", value);
                 _roomId = value;
-            }
-        }
-        public string SaveLocation
-        {
-            get
-            {
-                return _saveLocation;
-            }
-            set
-            {
-                Write("save_location", value);
-                _saveLocation = value;
             }
         }
         public bool IsDownloadComment
@@ -74,6 +76,18 @@ namespace BiliRoku
                 _isWaitStreaming = value ? "True" : "False";
             }
         }
+        public bool IsAutoRetry
+        {
+            get
+            {
+                return _isAutoRetry == "True";
+            }
+            set
+            {
+                Write("is_auto_retry", value ? "True" : "False");
+                _isAutoRetry = value ? "True" : "False";
+            }
+        }
         public string Filename
         {
             get
@@ -98,11 +112,31 @@ namespace BiliRoku
                 _savePath = value;
             }
         }
-
-        public Config()
+        public string RefreshTime
         {
-            Init();
+            get
+            {
+                return _refreshTime;
+            }
+            set
+            {
+                Write("refresh_time", value);
+                _refreshTime = value;
+            }
         }
+        public string Timeout
+        {
+            get
+            {
+                return _timeout;
+            }
+            set
+            {
+                Write("timeout", value);
+                _timeout = value;
+            }
+        }
+
         private void Init()
         {
             var hkcu = Registry.CurrentUser;
@@ -122,14 +156,14 @@ namespace BiliRoku
                     case "room_id":
                         _roomId = bilirokuKey.GetValue("room_id").ToString();
                         break;
-                    case "save_location":
-                        _saveLocation = bilirokuKey.GetValue("save_location").ToString();
-                        break;
                     case "is_download_cmt":
                         _isDownloadCmt = bilirokuKey.GetValue("is_download_cmt").ToString();
                         break;
                     case "is_wait_streaming":
                         _isWaitStreaming = bilirokuKey.GetValue("is_wait_streaming").ToString();
+                        break;
+                    case "is_auto_retry":
+                        _isAutoRetry = bilirokuKey.GetValue("is_auto_retry").ToString();
                         break;
                     case "filename":
                         _filename = bilirokuKey.GetValue("filename").ToString();
@@ -137,8 +171,15 @@ namespace BiliRoku
                     case "save_path":
                         _savePath = bilirokuKey.GetValue("save_path").ToString();
                         break;
+                    case "refresh_time":
+                        _refreshTime = bilirokuKey.GetValue("refresh_time").ToString();
+                        break;
+                    case "timeout":
+                        _timeout = bilirokuKey.GetValue("timeout").ToString();
+                        break;
                     default:
-                        throw new Exception("Not support this keyname");
+                        InfoLogger.SendInfo("Config", "WARNING", "不支持的配置项。");
+                        break;
                 }
             }
             hkcu.Close();
