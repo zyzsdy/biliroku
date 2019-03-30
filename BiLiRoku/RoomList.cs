@@ -18,7 +18,8 @@ namespace BiliRoku
         private bool live_status = false;
         private bool record_status = false;
         private bool refreshing = false;
-        private bool mannul_destroying = false;
+        private bool force_stoping = false;
+        private bool init_ready = false;
         private string realRoomid;
         private Downloader downloader;
         private CommentProvider commentProvider;
@@ -77,6 +78,7 @@ namespace BiliRoku
         {
             await RefreshInfo();
             commentProvider = ReceiveComment();
+            init_ready = true;
         }
 
         public async Task RefreshInfo()
@@ -96,6 +98,23 @@ namespace BiliRoku
                 }
 
                 Title = RoomInfo.title;
+                if (Config.Instance.IsWaitStreaming)
+                {
+                    if (RoomInfo.liveStatus == true && live_status == false)
+                    {
+                        //开播了
+                        if (init_ready == false)
+                        {
+                            WaitForStart();
+                        }
+                        else if (record_status == false) Start();
+                    }
+                    else if (RoomInfo.liveStatus == false && live_status == true)
+                    {
+                        //下播了
+                        if (record_status == true) Stop();
+                    }
+                }
                 live_status = RoomInfo.liveStatus;
                 Username = RoomInfo.username;
                 refreshing = false;
@@ -108,6 +127,21 @@ namespace BiliRoku
             }
         }
 
+        public async void WaitForStart()
+        {
+            await Task.Run(async () =>
+            {
+                if(init_ready == false)
+                {
+                    while (!init_ready)
+                    {
+                        await Task.Delay(1000);
+                    }
+                }
+                if (record_status == false) Start();
+            });
+        }
+
         public void Destroy()
         {
             EndProcess();
@@ -116,7 +150,7 @@ namespace BiliRoku
 
         public void EndProcess()
         {
-            mannul_destroying = true;
+            force_stoping = true;
             downloader?.Stop();
             commentProvider?.Disconnect();
         }
@@ -150,14 +184,35 @@ namespace BiliRoku
             downloader.OnDownloadInfoUpdate += Downloader_OnDownloadInfoUpdate;
             downloader.OnStop += Downloader_OnStop;
 
-            downloader.Start(CompilePath());
             record_status = true;
+            downloader.Start(CompilePath());
             PropertyChange("MainButtonText");
         }
 
         private void Downloader_OnStop(object sender)
         {
             Stop();
+
+            //如果不是用户触发的，检查状态后重试。
+            if (force_stoping)
+            {
+                force_stoping = false;
+                return;
+            }
+            var config = Config.Instance;
+            if (config.IsAutoRetry && live_status)
+            {
+                //触发重试
+                AutoRetry();
+            }
+        }
+
+        private async void AutoRetry()
+        {
+            var config = Config.Instance;
+            InfoLogger.SendInfo(Roomid, "INFO", "等待 " + config.RefreshTime + " 秒后重试。");
+            await Task.Delay(int.Parse(config.RefreshTime ?? "30") * 1000);
+            if(record_status == false) Start(); //保证同时只有一个下载（否则会下坏）
         }
 
         private void Stop()
@@ -180,13 +235,11 @@ namespace BiliRoku
         {
             if (record_status)
             {
-                InfoLogger.SendInfo(Roomid, "DEBUG", "停止了？");
+                force_stoping = true;
                 Stop();
             }
             else
             {
-                InfoLogger.SendInfo(Roomid, "DEBUG", "开始了？");
-
                 Start();
             }
             
@@ -236,9 +289,9 @@ namespace BiliRoku
                 else
                 {
                     InfoLogger.SendInfo(Roomid, "INFO", "[主播开始直播]");
-
-                    if (downloader?.IsRunning ?? false) return;
                     //重新开始下载直播
+                    force_stoping = true;
+                    Stop();
                     Start();
                 }
             }
@@ -259,7 +312,7 @@ namespace BiliRoku
             InfoLogger.SendInfo(Roomid, "INFO", "弹幕服务器断开");
 
             //如果不是用户触发的，则尝试重连。
-            if (!mannul_destroying) return;
+            if (!force_stoping) return;
             InfoLogger.SendInfo(Roomid, "INFO", "尝试重新连接弹幕服务器");
             commentProvider.Connect();
         }
@@ -316,12 +369,12 @@ namespace BiliRoku
                 while (true)
                 {
                     await Task.Delay(int.Parse(config.RefreshTime ?? "30") * 1000);
-                    await RefreshInfo();
+                    RefreshInfo();
                 }
             });
         }
 
-        public async Task RefreshInfo()
+        public void RefreshInfo()
         {
             foreach (var roomtask in this)
             {

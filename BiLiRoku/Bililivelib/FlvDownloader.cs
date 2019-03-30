@@ -14,7 +14,6 @@ namespace BiliRoku.Bililivelib
         public bool IsDownloading { get; private set; }
         
         private readonly string _savePath;
-        private readonly string _roomid;
         private readonly bool _saveComment;
         private WebClient _wc;
         private readonly CommentProvider _cmtProvider;

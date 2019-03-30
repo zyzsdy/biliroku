@@ -11,8 +11,8 @@ namespace BiliRoku
     internal static class Ver
     {
         public const string VER = "2.0.0";
-        public const string DATE = "(2019-4-1)";
-        public const string DESC = "修改API";
+        public const string DATE = "(2019-3-30)";
+        public const string DESC = "多直播间支持和自动检测开播功能支持。";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
         public static readonly string UA = "FeelyBlog/1.1 BiliRoku/2.0.0 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
     }
