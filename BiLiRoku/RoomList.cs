@@ -159,9 +159,13 @@ namespace BiliRoku
         {
             var config = Config.Instance;
             var path = System.IO.Path.Combine(config.SavePath, config.Filename);
+
+            var safeTitle = SafetyFileName(Title);
+            var safeUsername = SafetyFileName(Username);
+
             path = path.Replace("{roomid}", Roomid);
-            path = path.Replace("{title}", Title);
-            path = path.Replace("{username}", Username);
+            path = path.Replace("{title}", safeTitle);
+            path = path.Replace("{username}", safeUsername);
             path = path.Replace("{Y}", DateTime.Now.Year.ToString());
             path = path.Replace("{M}", DateTime.Now.Month.ToString());
             path = path.Replace("{d}", DateTime.Now.Day.ToString());
@@ -169,6 +173,28 @@ namespace BiliRoku
             path = path.Replace("{m}", DateTime.Now.Minute.ToString());
             path = path.Replace("{s}", DateTime.Now.Second.ToString());
             return path;
+        }
+
+        public static string SafetyFileName(string fString)
+        {
+            var invalidChars = System.IO.Path.GetInvalidFileNameChars();
+            var invalidCharIndex = fString.IndexOfAny(invalidChars, 0);
+            if (invalidCharIndex == -1) return fString;
+
+            var safeString = new StringBuilder();
+            var replaceIndex = 0;
+
+            do
+            {
+                safeString.Append(fString, replaceIndex, invalidCharIndex - replaceIndex);
+                safeString.Append("_");
+
+                replaceIndex = invalidCharIndex + 1;
+                invalidCharIndex = fString.IndexOfAny(invalidChars, replaceIndex);
+            } while (invalidCharIndex != -1);
+
+            safeString.Append(fString, replaceIndex, fString.Length - replaceIndex);
+            return safeString.ToString();
         }
 
         private void Start()
