@@ -10,11 +10,11 @@ namespace BiliRoku
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class Ver
     {
-        public const string VER = "2.0.1";
+        public const string VER = "2.0.2";
         public const string DATE = "(2019-4-13)";
-        public const string DESC = "修复BUG：直播标题中特殊字符会导致程序崩溃。";
+        public const string DESC = "修复BUG：直播标题中特殊字符会导致程序崩溃。\nUI界面微小调整。";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
-        public static readonly string UA = "FeelyBlog/1.1 BiliRoku/2.0.1 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
+        public static readonly string UA = "FeelyBlog/1.1 BiliRoku/2.0.2 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
     }
 
     // 检查更新
