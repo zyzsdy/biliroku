@@ -304,7 +304,7 @@ namespace BiliRoku
             try
             {
                 //DEBUG: 弹幕显示测试
-                //InfoLogger.SendInfo(_roomid, "收到弹幕", e.Comment.CommentUser + ": " + e.Comment.CommentText);
+                //InfoLogger.SendInfo(Roomid, "收到弹幕", e.Comment.CommentUser + ": " + e.Comment.CommentText);
                 //接收到弹幕时的处理。
                 if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
                 {

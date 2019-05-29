@@ -134,53 +134,46 @@ namespace BiliRoku.Commentlib
                         var obj = JObject.Parse(json);
 
                         var cmd = obj["cmd"].ToString();
-                        switch (cmd)
+                        if (cmd.StartsWith("LIVE"))
                         {
-                            case "LIVE":
-                                MsgType = MsgTypeEnum.LiveStart;
-                                RoomId = obj["roomid"].ToString();
-                                break;
-                            case "PREPARING":
-                                MsgType = MsgTypeEnum.LiveEnd;
-                                RoomId = obj["roomid"].ToString();
-                                break;
-                            case "DANMU_MSG":
-                                CommentText = obj["info"][1].ToString();
-                                CommentUser = obj["info"][2][1].ToString();
-                                IsAdmin = obj["info"][2][2].ToString() == "1";
-                                IsVip = obj["info"][2][3].ToString() == "1";
-                                DmType = Convert.ToInt32(obj["info"][0][1]);
-                                Fontsize = Convert.ToInt32(obj["info"][0][2]);
-                                Color = Convert.ToInt32(obj["info"][0][3]);
-                                SendTimestamp = Convert.ToInt64(obj["info"][0][4]);
-                                UserHash = obj["info"][0][7].ToString();
-                                MsgType = MsgTypeEnum.Comment;
-                                break;
-                            case "SEND_GIFT":
-                                MsgType = MsgTypeEnum.GiftSend;
-                                GiftName = obj["data"]["giftName"].ToString();
-                                GiftUser = obj["data"]["uname"].ToString();
-                                Giftrcost = obj["data"]["rcost"].ToString();
-                                GiftNum = obj["data"]["num"].ToString();
-                                break;
-                            case "GIFT_TOP":
-                                {
-                                    MsgType = MsgTypeEnum.GiftTop;
-                                    break;
-                                }
-                            case "WELCOME":
-                                {
-                                    MsgType = MsgTypeEnum.Welcome;
-                                    CommentUser = obj["data"]["uname"].ToString();
-                                    IsVip = true;
-                                    IsAdmin = obj["data"]["isadmin"].ToString() == "1";
-                                    break;
-                                }
-                            default:
-                                {
-                                    MsgType = MsgTypeEnum.Unknown;
-                                    break;
-                                }
+                            MsgType = MsgTypeEnum.LiveStart;
+                            RoomId = obj["roomid"].ToString();
+                        }else if (cmd.StartsWith("PREPARING"))
+                        {
+                            MsgType = MsgTypeEnum.LiveEnd;
+                            RoomId = obj["roomid"].ToString();
+                        }else if (cmd.StartsWith("DANMU_MSG"))
+                        {
+                            CommentText = obj["info"][1].ToString();
+                            CommentUser = obj["info"][2][1].ToString();
+                            IsAdmin = obj["info"][2][2].ToString() == "1";
+                            IsVip = obj["info"][2][3].ToString() == "1";
+                            DmType = Convert.ToInt32(obj["info"][0][1]);
+                            Fontsize = Convert.ToInt32(obj["info"][0][2]);
+                            Color = Convert.ToInt32(obj["info"][0][3]);
+                            SendTimestamp = Convert.ToInt64(obj["info"][0][4]);
+                            UserHash = obj["info"][0][7].ToString();
+                            MsgType = MsgTypeEnum.Comment;
+                        }else if (cmd.StartsWith("SEND_GIFT"))
+                        {
+                            MsgType = MsgTypeEnum.GiftSend;
+                            GiftName = obj["data"]["giftName"].ToString();
+                            GiftUser = obj["data"]["uname"].ToString();
+                            Giftrcost = obj["data"]["rcost"].ToString();
+                            GiftNum = obj["data"]["num"].ToString();
+                        }else if (cmd.StartsWith("GIFT_TOP"))
+                        {
+                            MsgType = MsgTypeEnum.GiftTop;
+                        }else if (cmd.StartsWith("WELCOME"))
+                        {
+                            MsgType = MsgTypeEnum.Welcome;
+                            CommentUser = obj["data"]["uname"].ToString();
+                            IsVip = true;
+                            IsAdmin = obj["data"]["isadmin"].ToString() == "1";
+                        }
+                        else
+                        {
+                            MsgType = MsgTypeEnum.Unknown;
                         }
                         break;
                     }
