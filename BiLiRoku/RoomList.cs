@@ -166,12 +166,12 @@ namespace BiliRoku
             path = path.Replace("{roomid}", Roomid);
             path = path.Replace("{title}", safeTitle);
             path = path.Replace("{username}", safeUsername);
-            path = path.Replace("{Y}", DateTime.Now.Year.ToString());
-            path = path.Replace("{M}", DateTime.Now.Month.ToString());
-            path = path.Replace("{d}", DateTime.Now.Day.ToString());
-            path = path.Replace("{H}", DateTime.Now.Hour.ToString());
-            path = path.Replace("{m}", DateTime.Now.Minute.ToString());
-            path = path.Replace("{s}", DateTime.Now.Second.ToString());
+            path = path.Replace("{Y}", DateTime.Now.ToString("yy"));
+            path = path.Replace("{M}", DateTime.Now.ToString("MM"));
+            path = path.Replace("{d}", DateTime.Now.ToString("dd"));
+            path = path.Replace("{H}", DateTime.Now.ToString("HH"));
+            path = path.Replace("{m}", DateTime.Now.ToString("mm"));
+            path = path.Replace("{s}", DateTime.Now.ToString("ss"));
             return path;
         }
 
@@ -359,6 +359,7 @@ namespace BiliRoku
 
         public void AddRoom(string roomid, bool restore = false)
         {
+
             if(this.Count(i => i.Roomid == roomid) > 0)
             {
                 if(restore == false) MessageBox.Show("直播间ID已经存在。", "添加失败", MessageBoxButton.OK, MessageBoxImage.Asterisk);
@@ -378,9 +379,10 @@ namespace BiliRoku
 
         public void RestoreRooms()
         {
-            if (config.RoomId != null)
+            if (config.RoomId != null && config.RoomId != "")
             {
                 var roomids = config.RoomId.Split(',');
+                
                 foreach (var roomid in roomids)
                 {
                     AddRoom(roomid, true);
