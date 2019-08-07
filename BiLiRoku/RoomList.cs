@@ -162,16 +162,23 @@ namespace BiliRoku
 
             var safeTitle = SafetyFileName(Title);
             var safeUsername = SafetyFileName(Username);
-
+            
             path = path.Replace("{roomid}", Roomid);
             path = path.Replace("{title}", safeTitle);
             path = path.Replace("{username}", safeUsername);
-            path = path.Replace("{Y}", DateTime.Now.ToString("yy"));
-            path = path.Replace("{M}", DateTime.Now.ToString("MM"));
-            path = path.Replace("{d}", DateTime.Now.ToString("dd"));
-            path = path.Replace("{H}", DateTime.Now.ToString("HH"));
-            path = path.Replace("{m}", DateTime.Now.ToString("mm"));
-            path = path.Replace("{s}", DateTime.Now.ToString("ss"));
+            path = path.Replace("{Y}", DateTime.Now.Year.ToString());
+            path = path.Replace("{M}", DateTime.Now.Month.ToString());
+            path = path.Replace("{d}", DateTime.Now.Day.ToString());
+            path = path.Replace("{H}", DateTime.Now.Hour.ToString());
+            path = path.Replace("{m}", DateTime.Now.Minute.ToString());
+            path = path.Replace("{s}", DateTime.Now.Second.ToString());
+            path = path.Replace("{YY}", DateTime.Now.ToString("yy"));
+            path = path.Replace("{MM}", DateTime.Now.ToString("MM"));
+            path = path.Replace("{dd}", DateTime.Now.ToString("dd"));
+            path = path.Replace("{HH}", DateTime.Now.ToString("HH"));
+            path = path.Replace("{mm}", DateTime.Now.ToString("mm"));
+            path = path.Replace("{ss}", DateTime.Now.ToString("ss"));
+            path = path.Replace("{YYYY}", DateTime.Now.ToString("yyyy"));
             return path;
         }
 
