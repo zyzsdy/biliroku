@@ -100,8 +100,10 @@ namespace BiliRoku
             MessageBox.Show(this, @"说明：
 
 {roomid}--房间号 {title}--房间名 {username}--主播用户名
-{Y}--年 {M}--月 {d}--日
-{h}--时 {m}--分 {s}--秒
+{Y}--年(四位) {M}--月 {d}--日
+{H}--时 {m}--分 {s}--秒 (不自动补0,一位数时占一位)
+{YY}(两位年份){MM}{dd}{HH}{mm}{ss}分别对应上方补0(保持占两位数)
+{YYYY} 四位年份
 注：若文件名中不含时间变量，则为固定文件名，固定文件名可能会被覆盖。
 文件名中也可出现“\”字符，这时会建立子目录。", "保存文件名变量说明", MessageBoxButton.OK, MessageBoxImage.Information);
         }
