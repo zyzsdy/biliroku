@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace BiliRoku.Commentlib
 {
     public class CommentProvider
     {
-        private const int CmtPort = 2243;
         private readonly string _roomid;
         private bool _connected; //连接情况
 
@@ -36,7 +36,9 @@ namespace BiliRoku.Commentlib
         {
             try
             {
-                var cmtHost = await GetCmtServer();
+                var cmtServer = await GetCmtServer();
+                var cmtHost = cmtServer.Item1;
+                var cmtPort = cmtServer.Item2;
 
                 if (cmtHost == null)
                 {
@@ -45,7 +47,7 @@ namespace BiliRoku.Commentlib
 
                 //连接弹幕服务器
                 _client = new TcpClient();
-                await _client.ConnectAsync(cmtHost, CmtPort);
+                await _client.ConnectAsync(cmtHost, cmtPort);
                 _netStream = _client.GetStream();
 
                 if (SendJoinChannel(int.Parse(_roomid)))
@@ -252,8 +254,11 @@ namespace BiliRoku.Commentlib
             }
         }
 
-
-        private Task<string> GetCmtServer()
+        /// <summary>
+        /// 获取弹幕服务器地址和端口。
+        /// </summary>
+        /// <returns>Tuple&lt;string, int>(弹幕服务器地址, 端口)</returns>
+        private Task<Tuple<string, int>> GetCmtServer()
         {
             return Task.Run(() => {
                 //获取真实弹幕服务器地址。
@@ -264,11 +269,11 @@ namespace BiliRoku.Commentlib
                 chatWc.Headers.Add("User-Agent: " + Ver.UA);
                 chatWc.Headers.Add("Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4");
 
-                var chatApi = "http://live.bilibili.com/api/player?id=cid:" + _roomid;
-                string chatXmlString;
+                var chatApi = "https://api.live.bilibili.com/room/v1/Danmu/getConf?room_id=" + _roomid;
+                string chatConfString;
                 try
                 {
-                    chatXmlString = chatWc.DownloadString(chatApi);
+                    chatConfString = chatWc.DownloadString(chatApi);
                 }
                 catch (Exception e)
                 {
@@ -276,25 +281,20 @@ namespace BiliRoku.Commentlib
                     throw;
                 }
 
-                //解析弹幕信息Xml
-                chatXmlString = "<root>" + chatXmlString + "</root>";
-                var chatXml = new XmlDocument();
+                //解析弹幕信息
                 try
                 {
-                    chatXml.LoadXml(chatXmlString);
+                    var chatConf = JObject.Parse(chatConfString);
+                    var cmtServerHost = chatConf["data"]["host"].ToString();
+                    int.TryParse(chatConf["data"]["port"].ToString(), out int cmtServerPort);
+                    InfoLogger.SendInfo(_roomid, "INFO", $"解析弹幕服务器地址成功：{cmtServerHost}:{cmtServerPort}");
+                    return new Tuple<string, int>(cmtServerHost, cmtServerPort);
                 }
                 catch (Exception e)
                 {
-                    InfoLogger.SendInfo(_roomid, "ERROR", "解析XML失败：" + e.Message);
+                    InfoLogger.SendInfo(_roomid, "ERROR", "解析弹幕服务器失败：" + e.Message);
                     throw;
                 }
-
-                //取得弹幕服务器Url
-                var serverNode = chatXml.DocumentElement?.SelectSingleNode("/root/dm_server");
-                var cmtServerUrl = serverNode?.InnerText;
-
-                InfoLogger.SendInfo(_roomid, "INFO", "解析弹幕服务器地址成功：" + cmtServerUrl);
-                return cmtServerUrl;
             });
         }
 

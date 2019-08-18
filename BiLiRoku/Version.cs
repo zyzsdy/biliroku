@@ -10,11 +10,11 @@ namespace BiliRoku
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class Ver
     {
-        public const string VER = "2.0.3";
-        public const string DATE = "(2019-5-29)";
-        public const string DESC = "B站弹幕协议更新";
+        public const string VER = "2.0.4";
+        public const string DATE = "(2019-8-18)";
+        public const string DESC = "* B站弹幕服务器API更新\n* 修复未配置直播间时解析错误\n* 增加新的时间替换符";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
-        public static readonly string UA = "FeelyBlog/1.1 BiliRoku/2.0.3 " + OS_VER + " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
+        public static readonly string UA = $"FeelyBlog/1.1 BiliRoku/{VER} {OS_VER} AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
     }
 
     // 检查更新
