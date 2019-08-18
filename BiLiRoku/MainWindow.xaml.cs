@@ -85,8 +85,17 @@ namespace BiliRoku
             var addRoomDialog = new AddRoom { Owner = this };
             if(addRoomDialog.ShowDialog() == true)
             {
-                var roomid = addRoomDialog.roomid.Text;
-                _roomlist.AddRoom(roomid);
+                var roomidString = addRoomDialog.roomid.Text;
+                if(long.TryParse(roomidString, out long roomid))
+                {
+                    _roomlist.AddRoom(roomid.ToString());
+                }
+                else
+                {
+                    MessageBox.Show("房间号必须为一个整数。", "输入错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                
             }
         }
 

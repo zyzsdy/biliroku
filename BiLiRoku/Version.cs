@@ -12,7 +12,7 @@ namespace BiliRoku
     {
         public const string VER = "2.0.4";
         public const string DATE = "(2019-8-18)";
-        public const string DESC = "* B站弹幕服务器API更新\n* 修复未配置直播间时解析错误\n* 增加新的时间替换符";
+        public const string DESC = "* B站弹幕服务器API更新\n* 修复未配置直播间时解析错误\n* 增加新的时间替换符\n* 处理房间号输入异常";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
         public static readonly string UA = $"FeelyBlog/1.1 BiliRoku/{VER} {OS_VER} AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
     }

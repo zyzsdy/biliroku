@@ -44,7 +44,7 @@
                         <Button x:Name="deleteRoom" Height="20" Width="20" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Click="DeleteRoom_Click">
                             <Image Source="Resources/icon_close_36.png" Width="16" Height="16"></Image>
                         </Button>
-                        <Label Content="{Binding Roomid}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Label Content="{Binding Roomid}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="250"/>
                         <Label Content="{Binding Title}" Margin="0,25,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Label Content="{Binding Username}" Margin="0,50,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Label Content="{Binding OnlineValue}" Margin="0,50,5,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right"/>
