@@ -15,20 +15,20 @@
         <Button x:Name="CancelButton" Content="取消" Margin="0,0,9.857,10" Grid.Row="1" Height="29" VerticalAlignment="Bottom" IsCancel="True" HorizontalAlignment="Right" Width="75"/>
         <Label x:Name="SaveDirTextLabel" Content="保存位置：" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
         <Label x:Name="FilenameTextLabel" Content="文件名：" HorizontalAlignment="Left" Margin="22,65,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="SaveDirBox" Height="25" Margin="85,20,102.286,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.45,0.406" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="FilenameBox" Height="25" Margin="85,65,102,0" TextWrapping="Wrap" Text="{}{roomid}-{username}\{title}-{Y}-{M}-{d}-{H}-{m}-{s}.flv" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="SaveDirBox" Height="25" Margin="85,20,102.286,0" VerticalAlignment="Top" RenderTransformOrigin="0.45,0.406" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="FilenameBox" Height="25" Margin="85,65,102,0" Text="{}{roomid}-{username}\{title}-{Y}-{M}-{d}-{H}-{m}-{s}.flv" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
         <Button x:Name="OpenSaveDialogButton" Content="浏览..." Margin="0,20,22.286,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Width="75" Click="OpenSaveDialogButton_Click"/>
         <CheckBox x:Name="SaveCommetCheckBox" Content="同时保存弹幕" HorizontalAlignment="Left" Margin="85,113,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="AutoRecordCheckBox" Content="监测到主播开播后自动录制（重启后生效）" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,143,0,0"/>
         <Label Content="自动刷新间隔：" Margin="0,137,81,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="94"/>
-        <TextBox x:Name="refreshTimeBox" Height="23" Margin="0,141,32,0" TextWrapping="Wrap" Text="30" VerticalAlignment="Top" HorizontalAlignment="Right" Width="58"/>
+        <TextBox x:Name="refreshTimeBox" Height="23" Margin="0,141,32,0" Text="30" VerticalAlignment="Top" HorizontalAlignment="Right" Width="58"/>
         <Label Content="秒" Margin="0,137,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="22" RenderTransformOrigin="1.53,0.478"/>
         <CheckBox x:Name="AutoRetryCheckBox" Content="自动重试" HorizontalAlignment="Left" Margin="85,172,0,0" VerticalAlignment="Top"/>
         <Button x:Name="SaveNameHelp" HorizontalAlignment="Left" Margin="425,65,0,0" VerticalAlignment="Top" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Click="SaveNameHelp_Click">
             <Image Source="Resources/icon_help_outline_36.png"/>
         </Button>
         <Label Content="流检测超时：" Margin="0,166,89,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="77" ToolTip="如果在下载开始之后，超时时间内未下载到流，则认为下载失败。"/>
-        <TextBox x:Name="timeoutBox" Height="23" Margin="0,170,32,0" TextWrapping="Wrap" Text="2000" VerticalAlignment="Top" HorizontalAlignment="Right" Width="58"/>
+        <TextBox x:Name="timeoutBox" Height="23" Margin="0,170,32,0" Text="2000" VerticalAlignment="Top" HorizontalAlignment="Right" Width="58"/>
         <Label Content="ms" Margin="0,166,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="32" RenderTransformOrigin="1.53,0.478"/>
 
 
