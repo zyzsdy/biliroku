@@ -35,6 +35,12 @@ namespace BiliRoku.Commentlib
         /// 直播停止
         /// </summary>
         LiveEnd,
+
+        /// <summary>
+        /// 超级留言内容
+        /// </summary>
+        SuperChatMessage,
+
         /// <summary>
         /// 未知
         /// </summary>
@@ -111,7 +117,7 @@ namespace BiliRoku.Commentlib
         public readonly int Fontsize;
         public readonly int Color;
         public readonly long SendTimestamp;
-        public readonly string UserHash;
+        public readonly string UserHash = "";
 
         public CommentModel(string json, long time, int version = 1)
         {
@@ -170,6 +176,15 @@ namespace BiliRoku.Commentlib
                             CommentUser = obj["data"]["uname"].ToString();
                             IsVip = true;
                             IsAdmin = obj["data"]["isadmin"].ToString() == "1";
+                        }else if (cmd == "SUPER_CHAT_MESSAGE")
+                        {
+                            MsgType = MsgTypeEnum.SuperChatMessage;
+                            var price = obj["data"]["price"].ToString();
+                            CommentText = $"SC ￥{price} " + obj["data"]["message"].ToString();
+                            CommentUser = obj["data"]["user_info"]["uname"].ToString();
+                            Fontsize = 40;
+                            SendTimestamp = Convert.ToInt64(obj["data"]["ts"]);
+                            InfoLogger.SendInfo("debug", "superchat", CommentText);
                         }
                         else
                         {

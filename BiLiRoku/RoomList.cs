@@ -244,7 +244,8 @@ namespace BiliRoku
         {
             var config = Config.Instance;
             InfoLogger.SendInfo(Roomid, "INFO", "等待 " + config.RefreshTime + " 秒后重试。");
-            await Task.Delay(int.Parse(config.RefreshTime ?? "30") * 1000);
+            int.TryParse(config.RefreshTime ?? "30", out int refershTimeSecond);
+            await Task.Delay(refershTimeSecond * 1000);
             if(record_status == false) Start(); //保证同时只有一个下载（否则会下坏）
         }
 
@@ -311,7 +312,7 @@ namespace BiliRoku
             try
             {
                 //DEBUG: 弹幕显示测试
-                //InfoLogger.SendInfo(Roomid, "收到弹幕", e.Comment.CommentUser + ": " + e.Comment.CommentText);
+                //InfoLogger.SendInfo(Roomid, "收到弹幕", e.Comment.MsgType.ToString());
                 //接收到弹幕时的处理。
                 if (e.Comment.MsgType != MsgTypeEnum.LiveStart)
                 {
@@ -403,7 +404,8 @@ namespace BiliRoku
             {
                 while (true)
                 {
-                    await Task.Delay(int.Parse(config.RefreshTime ?? "30") * 1000);
+                    int.TryParse(config.RefreshTime ?? "30", out int timeoutSecond);
+                    await Task.Delay(timeoutSecond * 1000);
                     RefreshInfo();
                 }
             });

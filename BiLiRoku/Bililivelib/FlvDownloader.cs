@@ -120,11 +120,12 @@ namespace BiliRoku.Bililivelib
                     var durationStr = mi.Get(StreamKind.General, 0, "Duration");
                     var bitrateStr = mi.Get(StreamKind.Video, 0, "BitRate");
 
-                    _bitrate = int.Parse(bitrateStr);
+                    int.TryParse(bitrateStr, out _bitrate);
                     bitrateStr = mi.Get(StreamKind.Audio, 0, "BitRate");
-                    _bitrate += int.Parse(bitrateStr);
+                    int.TryParse(bitrateStr, out int audioBitrate);
+                    _bitrate += audioBitrate;
                     mi.Close();
-                    _duration = int.Parse(durationStr);
+                    int.TryParse(durationStr, out _duration);
                 }
                 catch
                 {

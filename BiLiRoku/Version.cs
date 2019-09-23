@@ -10,9 +10,9 @@ namespace BiliRoku
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal static class Ver
     {
-        public const string VER = "2.0.5";
-        public const string DATE = "(2019-9-11)";
-        public const string DESC = "* B站直播API调用方式更新\n* UI微调";
+        public const string VER = "2.0.6";
+        public const string DATE = "(2019-9-23)";
+        public const string DESC = "* B站直播弹幕协议更新（增加超级留言功能）\n* UI Bug修复";
         public static readonly string OS_VER = "(" + WinVer.SystemVersion.Major + "." + WinVer.SystemVersion.Minor + "." + WinVer.SystemVersion.Build + ")";
         public static readonly string UA = $"FeelyBlog/1.1 BiliRoku/{VER} {OS_VER} AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36";
     }

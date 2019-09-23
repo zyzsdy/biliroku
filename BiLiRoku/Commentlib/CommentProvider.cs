@@ -50,7 +50,8 @@ namespace BiliRoku.Commentlib
                 await _client.ConnectAsync(cmtHost, cmtPort);
                 _netStream = _client.GetStream();
 
-                if (SendJoinChannel(int.Parse(_roomid)))
+                int.TryParse(_roomid, out int roomIdNumber);
+                if (SendJoinChannel(roomIdNumber))
                 {
                     _connected = true;
                     HeartbeatLoop();

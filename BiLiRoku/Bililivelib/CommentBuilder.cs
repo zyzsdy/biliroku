@@ -79,8 +79,12 @@ namespace BiliRoku.Bililivelib
                 try
                 {
                     var cmt = await Dequeue();
-                    if (cmt == null || cmt.MsgType != MsgTypeEnum.Comment) continue;
-                    _sw.WriteLine(cmt.ToString(_nowTime));
+                    if (cmt == null) continue;
+
+                    if(cmt.MsgType == MsgTypeEnum.Comment || cmt.MsgType == MsgTypeEnum.SuperChatMessage)
+                    {
+                        _sw.WriteLine(cmt.ToString(_nowTime));
+                    }
                 }
                 catch
                 {

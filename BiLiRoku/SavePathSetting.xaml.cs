@@ -74,12 +74,22 @@ namespace BiliRoku
             {
                 if (MessageBoxResult.OK == MessageBox.Show("文件路径不含扩展名。确认将自动添加“.flv”的扩展名。", "确认？", MessageBoxButton.OKCancel))
                 {
-                    FilenameBox.Text = FilenameBox.Text + ".flv";
+                    FilenameBox.Text += ".flv";
                 }
                 else
                 {
                     return;
                 }
+            }
+            if (!int.TryParse(refreshTimeBox.Text, out _))
+            {
+                MessageBox.Show("刷新间隔必须为整数。", "BiliRoku");
+                return;
+            }
+            if (!int.TryParse(timeoutBox.Text, out _))
+            {
+                MessageBox.Show("超时时间必须为整数。", "BiliRoku");
+                return;
             }
             if (_config != null)
             {

@@ -53,7 +53,8 @@ namespace BiliRoku.Bililivelib
                 var config = Config.Instance;
                 _downloadCommentOption = config.IsDownloadComment;
                 _autoRetry = config.IsAutoRetry;
-                _streamTimeout = int.Parse(config.Timeout ?? "2000");
+
+                int.TryParse(config.Timeout ?? "2000", out _streamTimeout);
 
                 //获取真实下载地址
                 try
