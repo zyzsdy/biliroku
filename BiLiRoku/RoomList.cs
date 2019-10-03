@@ -86,7 +86,7 @@ namespace BiliRoku
             refreshing = true;
             PropertyChange("Refreshing");
             var RoomInfo = await PathFinder.GetRoomInfo(Roomid);
-            if(RoomInfo != null)
+            if(RoomInfo != null && RoomInfo.realRoomid != "NETERROR")
             {
                 if (RoomInfo.realRoomid == null)
                 {
@@ -124,6 +124,10 @@ namespace BiliRoku
                 PropertyChange("IsLiveStatus");
                 PropertyChange("NotLiveStatus");
                 PropertyChange("Refreshing");
+            }
+            else if (RoomInfo != null && RoomInfo.realRoomid == "NETERROR")
+            {
+                    Stop();
             }
         }
 
