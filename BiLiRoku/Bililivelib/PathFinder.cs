@@ -22,11 +22,7 @@ namespace BiliRoku.Bililivelib
         {
             return Task.Run(() => {
                 //InfoLogger.SendInfo(originalRoomId, "DEBUG", "正在刷新信息");
-
-                var roominfo_NETERR = new RoomInfo
-                {
-                     realRoomid="NETERROR"
-                };
+                var roominfo_NETERR = new RoomInfo { net_error = true };
                 var roomWebPageUrl = "https://api.live.bilibili.com/room/v1/Room/get_info?id=" + originalRoomId;
                 var wc = new WebClient();
                 wc.Headers.Add("Accept: */*");
