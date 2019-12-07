@@ -22,7 +22,7 @@ namespace BiliRoku.Bililivelib
         {
             return Task.Run(() => {
                 //InfoLogger.SendInfo(originalRoomId, "DEBUG", "正在刷新信息");
-
+                var roominfo_NETERR = new RoomInfo { net_error = true };
                 var roomWebPageUrl = "https://api.live.bilibili.com/room/v1/Room/get_info?id=" + originalRoomId;
                 var wc = new WebClient();
                 wc.Headers.Add("Accept: */*");
@@ -35,6 +35,11 @@ namespace BiliRoku.Bililivelib
                 try
                 {
                     roomHtml = wc.DownloadData(roomWebPageUrl);
+                }
+                catch(WebException e0)
+                {
+                    InfoLogger.SendInfo(originalRoomId, "ERROR", "获取房间信息失败<net>：" + e0.Message);
+                    return roominfo_NETERR;
                 }
                 catch (Exception e)
                 {
@@ -60,6 +65,11 @@ namespace BiliRoku.Bililivelib
                     {
                         userHtml = uwc.DownloadData(userInfoUrl);
                     }
+                    catch (WebException e0)
+                    {
+                        InfoLogger.SendInfo(originalRoomId, "ERROR", "获取用户信息失败<net>：" + e0.Message);
+                        return roominfo_NETERR;
+                    }
                     catch (Exception e)
                     {
                         InfoLogger.SendInfo(originalRoomId, "ERROR", "获取用户信息失败：" + e.Message);
@@ -78,6 +88,11 @@ namespace BiliRoku.Bililivelib
                         username = userName
                     };
                     return roominfo;
+                }
+                catch (WebException e0)
+                {
+                    InfoLogger.SendInfo(originalRoomId, "ERROR", "房间信息解析失败<net>：" + e0.Message);
+                    return roominfo_NETERR;
                 }
                 catch (Exception e)
                 {

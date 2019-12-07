@@ -20,6 +20,8 @@ namespace BiliRoku
         private bool refreshing = false;
         private bool force_stoping = false;
         private bool init_ready = false;
+        private bool net_error = false;
+        
         private string realRoomid;
         private Downloader downloader;
         private CommentProvider commentProvider;
@@ -86,7 +88,7 @@ namespace BiliRoku
             refreshing = true;
             PropertyChange("Refreshing");
             var RoomInfo = await PathFinder.GetRoomInfo(Roomid);
-            if(RoomInfo != null)
+            if(RoomInfo != null && !RoomInfo.net_error)
             {
                 if (RoomInfo.realRoomid == null)
                 {
@@ -124,6 +126,10 @@ namespace BiliRoku
                 PropertyChange("IsLiveStatus");
                 PropertyChange("NotLiveStatus");
                 PropertyChange("Refreshing");
+            }
+            else if (RoomInfo != null && RoomInfo.net_error)
+            {
+                    Stop();
             }
         }
 
