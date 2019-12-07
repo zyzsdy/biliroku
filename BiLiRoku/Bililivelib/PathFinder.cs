@@ -97,7 +97,7 @@ namespace BiliRoku.Bililivelib
                     InfoLogger.SendInfo(roomid, "ERROR", "房间号获取错误。");
                     throw new Exception("No roomid");
                 }
-                var apiUrl = "https://api.live.bilibili.com/room/v1/Room/playUrl?cid=" + roomid + "&otype=json&quality=4&platform=web";
+                var apiUrl = "https://api.live.bilibili.com/room/v1/Room/playUrl?cid=" + roomid + "&otype=json&qn=10000&platform=web";
                 SendStat(roomid);
 
                 //访问API获取结果
@@ -159,7 +159,7 @@ namespace BiliRoku.Bililivelib
             var apiParams = new StringBuilder();
             apiParams.Append("appkey=").Append(BiliApiKeyInfo.AppKey).Append("&")
                 .Append("cid=").Append(roomid).Append("&")
-                .Append("player=1&quality=0&ts=");
+                .Append("player=1&qn=10000&ts=");
             var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);//UNIX时间戳
             apiParams.Append(Convert.ToInt64(ts.TotalSeconds).ToString());
 

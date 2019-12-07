@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BiliRoku.Bililivelib;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace BiliRoku
 {
@@ -16,6 +17,7 @@ namespace BiliRoku
 
         public MainWindow()
         {
+            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
             _roomlist = new RoomList();
             InitializeComponent();
         }

@@ -12,7 +12,8 @@ namespace BiliRoku.Bililivelib
     public class FlvDownloader
     {
         public bool IsDownloading { get; private set; }
-        
+
+        private readonly string _roomid;
         private readonly string _savePath;
         private readonly bool _saveComment;
         private WebClient _wc;
@@ -28,6 +29,7 @@ namespace BiliRoku.Bililivelib
 
         public FlvDownloader(string roomid, string savePath, bool saveComment, CommentProvider cmtProvider)
         {
+            _roomid = roomid;
             _savePath = savePath;
             _saveComment = saveComment;
             _cmtProvider = cmtProvider;
@@ -40,8 +42,12 @@ namespace BiliRoku.Bililivelib
 
             _wc = new WebClient();
             _wc.Headers.Add("Accept: */*");
-            _wc.Headers.Add("User-Agent: " + Ver.UA);
+            _wc.Headers.Add("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36");
             _wc.Headers.Add("Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4");
+            _wc.Headers.Add("Origin: https://live.bilibili.com");
+            _wc.Headers.Add($"Referer: https://live.bilibili.com/blanc/{_roomid}?liteVersion=true");
+            _wc.Headers.Add("Sec-Fetch-Site: cross-site");
+            _wc.Headers.Add("Sec-Fetch-Mode: cors");
             _wc.DownloadFileCompleted += StopDownload;
             _wc.DownloadProgressChanged += ShowProgress;
 
