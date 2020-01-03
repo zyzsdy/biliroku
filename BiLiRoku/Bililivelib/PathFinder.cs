@@ -14,6 +14,7 @@ namespace BiliRoku.Bililivelib
         public string title;
         public bool liveStatus;
         public string username;
+        public bool net_error;//网络异常判断
     }
 
     static public class PathFinder
