@@ -2,8 +2,173 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:BiliRoku"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="b_Theme"  Color="#FF00A1D6" />
+        <SolidColorBrush x:Key="grey_Theme"  Color="#FF666666" />
+        <Style x:Key="Buttons" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                            <Border x:Name="boder" CornerRadius="4" >
+                                <Grid>
+                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4"/>
+                                    <Border CornerRadius="4"  x:Name="LIGHTMASK" Background="#2500A1D6" Visibility="Hidden"/>
+                                    <Border CornerRadius="4"  x:Name="GRAYMASK" Background="#4500b5e5" Visibility="Hidden"/>
+                                    <Border CornerRadius="4"  x:Name="UNENBMASK" Background="{DynamicResource UnEnabledGray}" Visibility="Hidden"/>
+
+                                    <ContentPresenter x:Name="text" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="LIGHTMASK" Property="Visibility" Value="Visible"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                                <Setter TargetName="GRAYMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="UNENBMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Buttons_BILIBLUE" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                            <Border x:Name="boder" CornerRadius="4" >
+                                <Grid>
+                                    <Border x:Name="back" Background="#FF00A1D6" BorderBrush="#FF00A1D6" BorderThickness="0" CornerRadius="4"/>
+                                    <Border CornerRadius="4"  x:Name="LIGHTMASK" Background="#FF00b5e5" Visibility="Hidden"/>
+                                    <Border CornerRadius="4"  x:Name="GRAYMASK" Background="#FF00b5e5" Visibility="Hidden"/>
+                                    <Border CornerRadius="4"  x:Name="UNENBMASK" Background="#ccc" Visibility="Hidden"/>
+
+                                    <ContentPresenter x:Name="text" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="LIGHTMASK" Property="Visibility" Value="Visible"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                                <Setter TargetName="GRAYMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="UNENBMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ImageBrush  x:Key="button_cls_rd" ImageSource="Resources/icon_close_36_Red.png"/>
+        <ImageBrush  x:Key="button_cls_rdback" ImageSource="Resources/icon_close_36_redback.png" />
+        <Style x:Key="Buttons_cls" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                            <Border x:Name="boder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" >
+                                <Grid>
+                                    <ContentPresenter x:Name="text" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                                    <Border CornerRadius="9"  x:Name="LIGHTMASK" Visibility="Hidden" Background="{DynamicResource button_cls_rd}"/>
+                                    <Border CornerRadius="9"  x:Name="GRAYMASK" Visibility="Hidden" Background="{DynamicResource button_cls_rdback}"/>
+                                    <Border CornerRadius="9"  x:Name="UNENBMASK" Visibility="Hidden"/>
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="LIGHTMASK" Property="Visibility" Value="Visible"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                                <Setter TargetName="GRAYMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="UNENBMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonsWithoutCornerRadius" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate  TargetType="{x:Type Button}">
+
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                            <Border x:Name="boder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
+                                <Grid>
+                                    <Grid x:Name="LIGHTMASK" Background="#35ffffff" Visibility="Hidden"/>
+                                    <Grid x:Name="GRAYMASK" Background="#50000000" Visibility="Hidden"/>
+                                    <Grid x:Name="UNENBMASK" Background="{DynamicResource UnEnabledGray}" Visibility="Hidden"/>
+                                    <ContentPresenter  x:Name="text" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="LIGHTMASK" Property="Visibility" Value="Visible"/>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                                <Setter TargetName="GRAYMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="UNENBMASK" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <System:String x:Key="FileNameHelp" xml:space="preserve">{roomid}直播间号    {title}直播标题    {username}主播用户名
+{Y}年(四位) {M}月       {d}日
+{H}时       {m}分       {s}秒
+**以上参数长度自动,位数不固定,根据数据长度而定**
+            
+{YY}两位年  {MM}两位月  {dd}两位日 
+{HH}两位时  {mm}两位分  {ss}两位秒
+{YYYY}四位年份
+**以上参数长度、位数固定,不根据数据长度浮动**
+            
+注：若文件名中不含时间变量，则为固定文件名，固定文件名可能会被覆盖。
+            
+文件名中也可出现“\”字符，这时会自动建立子目录。</System:String>
     </Application.Resources>
 </Application>

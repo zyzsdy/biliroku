@@ -20,7 +20,6 @@ namespace BiliRoku
         private bool refreshing = false;
         private bool force_stoping = false;
         private bool init_ready = false;
-        private bool net_error = false;
         
         private string realRoomid;
         private Downloader downloader;
@@ -58,7 +57,7 @@ namespace BiliRoku
         {
             get
             {
-                return record_status ? "停止" : "开始";
+                return record_status ? "停止录制" : "开始录制";
             }
         }
 

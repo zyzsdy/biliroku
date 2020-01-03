@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BiliRoku"
         mc:Ignorable="d"
-        Title="添加直播间" Height="170" Width="540" Icon="Resources/icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" Background="#FFF6F6F6" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
+        Title="添加直播间" Height="171" Width="358" Icon="Resources/icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" Background="White" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
     <Grid>
-        <Label Content="输入直播间ID：https://live.bilibili.com/" HorizontalAlignment="Left" Margin="26,30,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="roomid" HorizontalAlignment="Left" Height="23" Margin="253,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242"/>
-        <Button x:Name="OkButton" Content="确定" HorizontalAlignment="Left" Margin="343,87,0,0" VerticalAlignment="Top" Width="82" IsDefault="True" Height="28" Click="OkButton_Click"/>
-        <Button Content="取消" HorizontalAlignment="Left" Margin="430,87,0,0" VerticalAlignment="Top" Width="86" IsCancel="True" Height="28"/>
+        <TextBox x:Name="roomid" Text="" Height="30" Margin="156,46,22,0" TextWrapping="NoWrap" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="16" Foreground="{DynamicResource b_Theme}" SelectionBrush="Black" BorderBrush="{DynamicResource b_Theme}" TextDecorations="{x:Null}" FontWeight="Bold"/>
+        <Grid HorizontalAlignment="Center" Width="188" Height="28" VerticalAlignment="Bottom" Margin="0,0,0,13">
+            <Button x:Name="OkButton" Content="确定" HorizontalAlignment="Left" VerticalAlignment="Top" Width="89" IsDefault="True" Height="28" Click="OkButton_Click" Style="{DynamicResource Buttons_BILIBLUE}" Foreground="White"/>
+            <Button Content="取消" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Top" Width="93" IsCancel="True" Height="28" Style="{DynamicResource Buttons}" Background="{x:Null}" BorderBrush="{DynamicResource b_Theme}" Foreground="{DynamicResource b_Theme}"/>
+        </Grid>
+        <Label Content="https://live.bilibili.com/" HorizontalAlignment="Left" Margin="17,50,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="{DynamicResource grey_Theme}"/>
+        <Label Content="输入直播间ID" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="{DynamicResource b_Theme}" FontSize="18" FontWeight="Bold"/>
     </Grid>
 </Window>

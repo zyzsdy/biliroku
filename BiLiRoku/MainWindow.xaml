@@ -5,56 +5,96 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BiliRoku"
         mc:Ignorable="d"
-        Title="Biliroku - bilibili直播录制" Background="#FFF6F6F6" MinWidth="750" MinHeight="270" Width="1022" Height="714" Icon="Resources/icon.ico" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Biliroku - bilibili直播录制" MinWidth="1001" MinHeight="270" WindowStartupLocation="CenterScreen" Width="996" Height="600" Icon="Resources/icon.ico" Loaded="Window_Loaded" Closing="Window_Closing" Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="infoBlock" Grid.Column="1" Margin="10" TextWrapping="Wrap" Padding="5" UndoLimit="2" VerticalScrollBarVisibility="Auto" IsUndoEnabled="False" IsReadOnly="True" IsTabStop="False" BorderThickness="1" TextChanged="infoBlock_TextChanged" Background="White" SelectionBrush="#660078D7"/>
-        <Label x:Name="aboutLinkLabel" Content="关于 BiliRoku" Margin="0,10,10,0" Cursor="Hand" MouseLeftButtonUp="aboutLinkLabel_MouseLeftButtonUp" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top">
-            <Label.Foreground>
-                <SolidColorBrush Color="#FF0066CC"/>
-            </Label.Foreground>
-        </Label>
+        <TextBox x:Name="infoBlock" Grid.Column="1" Margin="0,10,10,10" TextWrapping="Wrap" Padding="5" UndoLimit="2" VerticalScrollBarVisibility="Auto" IsUndoEnabled="False" IsReadOnly="True" IsTabStop="False" BorderThickness="1" TextChanged="infoBlock_TextChanged" Background="White" SelectionBrush="#660078D7" BorderBrush="{DynamicResource b_Theme}"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" VerticalAlignment="Top" Width="694">
-            <Button x:Name="addRoomButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="AddRoomButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/icon_add_36.png" Width="16" Height="16"></Image>
+            <Button x:Name="addRoomButton" Width="125" BorderBrush="{DynamicResource b_Theme}" Background="{x:Null}" Click="AddRoomButton_Click" Style="{DynamicResource Buttons}" Margin="0,1,5,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="Resources/icon_add_36.png" Width="20" Height="20"></Image>
                     <Label VerticalAlignment="Center" Content="添加直播间"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="RefreshAllButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="RefreshAllButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/icon_refresh_36.png" Width="16" Height="16"></Image>
+            <Button x:Name="RefreshAllButton" Width="125" BorderBrush="{DynamicResource b_Theme}" Background="{x:Null}" Click="RefreshAllButton_Click" Style="{DynamicResource Buttons}" Margin="5,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="Resources/icon_refresh_36.png" Width="20" Height="20"></Image>
                     <Label VerticalAlignment="Center" Content="全部刷新"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="openSettingButton" Width="115" BorderBrush="{x:Null}" Background="{x:Null}" Click="OpenSettingButton_Click">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="Resources/icon_settings_36.png" Width="16" Height="16"></Image>
+            <Button x:Name="openSettingButton" Width="125" BorderBrush="{DynamicResource b_Theme}" Background="{x:Null}" Click="OpenSettingButton_Click" Style="{DynamicResource Buttons}" Margin="5,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="Resources/icon_settings_36.png" Width="20" Height="20"></Image>
                     <Label VerticalAlignment="Center" Content="设置"/>
                 </StackPanel>
             </Button>
+            <Button x:Name="CLS" Content="清空日志" Width="125" HorizontalAlignment="Left" Style="{DynamicResource Buttons}" BorderBrush="{DynamicResource b_Theme}" Background="{x:Null}" Foreground="Black" Click="CLS_Click" Margin="5,1"  />
+            <Button x:Name="About" Content="关于 BiliRoku" Width="125" HorizontalAlignment="Left" Style="{DynamicResource Buttons}" BorderBrush="{DynamicResource b_Theme}" Background="{x:Null}" Foreground="Black" Click="About_Click" Margin="5,1" />
+
         </StackPanel>
-        <ListView x:Name="roomListView" Margin="10,50,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="#FFABADB3" Background="{x:Null}">
+        <ListView x:Name="roomListView" Margin="10,50,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{x:Null}" BorderBrush="{DynamicResource b_Theme}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Width="300" Height="150">
-                        <Button x:Name="deleteRoom" Height="20" Width="20" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Click="DeleteRoom_Click">
-                            <Image Source="Resources/icon_close_36.png" Width="16" Height="16"></Image>
+                        <Button x:Name="deleteRoom" Click="DeleteRoom_Click" Height="18" Width="18" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Style="{DynamicResource Buttons_cls}">
+                            <Image Source="Resources/icon_close_36.png" Width="17" Height="17" StretchDirection="DownOnly"></Image>
                         </Button>
-                        <Label Content="{Binding Roomid}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="250"/>
-                        <Label Content="{Binding Title}" Margin="0,25,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Label Content="{Binding Username}" Margin="0,50,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Label Content="{Binding OnlineValue}" Margin="0,50,5,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                        <Label Content="正在直播" Margin="0,75,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF5AA456" Visibility="{Binding IsLiveStatus}"/>
-                        <Label Content="未直播" Margin="0,75,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFE84A4A" Visibility="{Binding NotLiveStatus}"/>
-                        <Label Content="{Binding RecordTime}" Margin="0,75,165,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="72"/>
-                        <Label Content="{Binding BitRate}" Margin="0,75,88,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="72"/>
-                        <Label Content="{Binding RecordSize}" Margin="0,75,10,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                        <Button x:Name="RoomTaskMainButton" Margin="0,0,10,10" Height="30" Width="90" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="{Binding MainButtonText}" Click="RoomTaskMainButton_Click"/>
-                        <Label Content="刷新信息..." Margin="10,115,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding Refreshing}"/>
+                        <StackPanel Margin="8,4,23,119" Orientation="Horizontal">
+                            <Label Content="直播间" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="{x:Null}" Foreground="{DynamicResource grey_Theme}" Padding="5,0,0,0" Margin="0,0,0,2"/>
+                            <Label Content="{Binding Roomid}" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Background="{x:Null}" Foreground="{DynamicResource b_Theme}" FontSize="18" Padding="5,5,0,0" FontWeight="Bold"/>
+                            <Grid Margin="15,6,0,0">
+                                <Label Content="正在直播" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource b_Theme}" Visibility="{Binding IsLiveStatus}" Padding="5,4"/>
+                                <Label Content="未开播" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource grey_Theme}" Visibility="{Binding NotLiveStatus}" Padding="5,4"/>
+                            </Grid>
+                        </StackPanel>
+                        <Label Content="{Binding Title}" Margin="8,28,12,0" Height="28" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" FontSize="16">
+                            <Label.ToolTip>
+                                <TextBlock Text="{Binding Title}"/>
+                            </Label.ToolTip>
+                        </Label>
+                        <StackPanel Margin="10,0,143,67" Height="Auto"  Orientation="Horizontal" VerticalAlignment="Bottom">
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource grey_Theme}" CornerRadius="2">
+                                <TextBlock Text="UP" Height="Auto" Margin="2,0" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}"/>
+                            </Border>
+                            <TextBlock Text="{Binding Username}" Height="Auto"  VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Margin="5,0,0,0"/>
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Username}"/>
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" Margin="13,107,80,28">
+                            <Label Content="大小:" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0"/>
+                            <Label Content="{Binding RecordSize}" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0"/>
+                            <Label Content=" 码率:" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0"/>
+                            <Label Content="{Binding BitRate}" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0"/>
+                            <StackPanel.ToolTip>
+                                <StackPanel HorizontalAlignment="Left" >
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Text="大小: "/>
+                                        <TextBlock Text="{Binding RecordSize}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <TextBlock Text="码率: "/>
+                                        <TextBlock Text="{Binding BitRate}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                        <Button x:Name="RoomTaskMainButton" Click="RoomTaskMainButton_Click" Margin="0,0,10,6" Height="25" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="{Binding MainButtonText}" Background="{DynamicResource b_Theme}" Style="{DynamicResource Buttons_BILIBLUE}" Foreground="White" BorderBrush="{x:Null}"/>
+                        <Label Content="正在刷新信息..." Margin="8,125,0,0" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding Refreshing}" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Width="207" Padding="5,0,5,5"/>
+                        <StackPanel Margin="162,78,11,45" FlowDirection="RightToLeft" Orientation="Horizontal">
+                            <Label Content="{Binding RecordTime}" HorizontalAlignment="Right" Foreground="#FFE86161" Background="{x:Null}" Padding="0" FontWeight="Bold" FontSize="18" FlowDirection="LeftToRight" VerticalContentAlignment="Bottom"/>
+                            <Label Content="时间: " Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0" FlowDirection="LeftToRight" Margin="0,0,0,2" VerticalContentAlignment="Bottom"/>
+                        </StackPanel>
+                        <StackPanel Margin="157,58,12,67" Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <Label Content="{Binding OnlineValue}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0,5" FlowDirection="LeftToRight"/>
+                            <Label Content="人气值" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource grey_Theme}" Background="{x:Null}" Padding="0,5,5,5" FlowDirection="LeftToRight"/>
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding OnlineValue}"/>
+                            </StackPanel.ToolTip>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

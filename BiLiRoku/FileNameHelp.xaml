@@ -1,0 +1,22 @@
+﻿<Window x:Class="BiliRoku.FileNameHelp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BiliRoku"
+        mc:Ignorable="d"
+        Title="文件自动命名使用说明" Height="300" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" Width="450" Icon="Resources/icon.ico" Background="White">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Alt" Key="C" Command="{DynamicResource CloseThisDialog}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <RoutedUICommand x:Key="CloseThisDialog" Text="Click close button"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource CloseThisDialog}" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Label Content="文件自动命名参数使用说明" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="{DynamicResource b_Theme}" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="textBox" Margin="10,43,10,10" BorderBrush="{DynamicResource b_Theme}" TextWrapping="Wrap" Text="{DynamicResource FileNameHelp}" FontFamily="SimSun" IsReadOnly="True" TextOptions.TextFormattingMode="Display"/>
+    </Grid>
+</Window>

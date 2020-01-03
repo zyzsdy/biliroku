@@ -26,7 +26,7 @@ namespace BiliRoku
         {
             Dispatcher.Invoke(() =>
             {
-                infoBlock.AppendText("[" + source + "] [" + level + " " + DateTime.Now.ToString("HH:mm:ss") + "] " + logText + "\n");
+                infoBlock.AppendText($"[{source}] [{level} {DateTime.Now.ToString("HH:mm:ss")}] {logText}\n");
             });
         }
 
@@ -62,18 +62,18 @@ namespace BiliRoku
         {
             Dispatcher.Invoke(() =>
             {
-                aboutLinkLabel.Content = "发现新版本：" + result.version;
-                aboutLinkLabel.MouseLeftButtonUp -= aboutLinkLabel_MouseLeftButtonUp;
-                aboutLinkLabel.MouseLeftButtonUp += (s, e) =>
+                About.Content = "发现新版本：" + result.version;
+                About.Click -= About_Click;
+                About.Click += (s, e) =>
                 {
                     System.Diagnostics.Process.Start("explorer.exe", result.url);
                 };
             });
         }
 
-        private void aboutLinkLabel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void About_Click(object sender, RoutedEventArgs e)
         {
-            var about = new About {Owner = this};
+            var about = new About { Owner = this };
             about.ShowDialog();
         }
 
@@ -128,6 +128,12 @@ namespace BiliRoku
         {
             AppendLogln("Core", "INFO", "准备关闭，等待所有活动录像结束后退出。");
             _roomlist.DestroyAll();
+        }
+
+        private void CLS_Click(object sender, RoutedEventArgs e)
+        {
+            infoBlock.Text = "";
+            AppendLogln("CLIENT", "INFO", "已清空日志面板");
         }
     }
 }

@@ -30,5 +30,10 @@ namespace BiliRoku
             InfoBox.Text = "HomePage: https://zyzsdy.com/biliroku\n\n更新说明：\n" + Ver.DESC + "\n\n";
             InfoBox.AppendText("注意：\n本程序不是bilibili官方出品。\n请在不违反bilibili用户协议的前提下使用。\n请遵守直播礼仪，未经up主同意请勿上传直播录像。\n\nBiliRoku可能会收集一些您的设备信息用于改进程序，其中不包含您的任何隐私信息。");
         }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "https://github.com/zyzsdy/biliroku");
+        }
     }
 }
