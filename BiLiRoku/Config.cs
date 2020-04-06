@@ -27,6 +27,8 @@ namespace BiliRoku
         private string _isDownloadCmt = "True";
         private string _isWaitStreaming = "True";
         private string _isAutoRetry = "True";
+        private string _startRecordCallback = ""; 
+        private string _stopRecordCallback = "";
 
         public string Version
         {
@@ -136,6 +138,30 @@ namespace BiliRoku
                 _timeout = value;
             }
         }
+        public string StartRecordCallback
+        {
+            get
+            {
+                return _startRecordCallback;
+            }
+            set
+            {
+                Write("start_record_callback", value);
+                _startRecordCallback = value;
+            }
+        }
+        public string StopRecordCallback
+        {
+            get
+            {
+                return _stopRecordCallback;
+            }
+            set
+            {
+                Write("stop_record_callback", value);
+                _stopRecordCallback = value;
+            }
+        }
 
         private void Init()
         {
@@ -176,6 +202,12 @@ namespace BiliRoku
                         break;
                     case "timeout":
                         _timeout = bilirokuKey.GetValue("timeout").ToString();
+                        break;
+                    case "start_record_callback":
+                        _startRecordCallback = bilirokuKey.GetValue("start_record_callback").ToString();
+                        break;
+                    case "stop_record_callback":
+                        _stopRecordCallback = bilirokuKey.GetValue("stop_record_callback").ToString();
                         break;
                     default:
                         InfoLogger.SendInfo("Config", "WARNING", "不支持的配置项。");

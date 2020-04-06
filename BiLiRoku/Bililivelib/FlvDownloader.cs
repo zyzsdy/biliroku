@@ -1,4 +1,4 @@
-﻿using BiliRoku.MediaInfolib;
+using BiliRoku.MediaInfolib;
 using System;
 using System.ComponentModel;
 using System.Net;
@@ -19,6 +19,8 @@ namespace BiliRoku.Bililivelib
         private WebClient _wc;
         private readonly CommentProvider _cmtProvider;
         private CommentBuilder _xmlBuilder;
+
+        private Config _config = Config.Instance;
         
         private int _bitrate;
         private int _duration;
@@ -52,7 +54,8 @@ namespace BiliRoku.Bililivelib
             _wc.DownloadProgressChanged += ShowProgress;
 
             IsDownloading = true;
-            
+            doCallbackAction("start");
+
             //如果目录不存在，那么先创建目录。
             // ReSharper disable AssignNullToNotNullAttribute
             if (!System.IO.Directory.Exists(GetDirectoryName(_savePath)))
@@ -97,6 +100,7 @@ namespace BiliRoku.Bililivelib
         private void StopDownload(object sender, AsyncCompletedEventArgs e)
         {
             Stop();
+            doCallbackAction("stop");
         }
 
         public void Stop(bool force = false)
@@ -138,6 +142,29 @@ namespace BiliRoku.Bililivelib
                     //忽略此处的错误。
                 }
             });
+        }
+
+        private void doCallbackAction(string mode)
+        {
+            switch(mode)
+            {
+                case "start":
+                    {
+                        if (_config.StartRecordCallback.Length > 0)
+                        {
+                            System.Diagnostics.Process.Start("cmd.exe", "/c " + _config.StartRecordCallback);
+                        }
+                        break;
+                    }
+                case "stop":
+                    {
+                        if (_config.StopRecordCallback.Length > 0)
+                        {
+                            System.Diagnostics.Process.Start("cmd.exe", "/c " + _config.StopRecordCallback);
+                        }
+                        break;
+                    }
+            }
         }
     }
 }
