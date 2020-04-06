@@ -1,4 +1,4 @@
-<Window x:Class="BiliRoku.SavePathSetting"
+﻿<Window x:Class="BiliRoku.SavePathSetting"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="Biliroku 参数设置" Height="390" Width="530" Background="#FFF6F6F6" Icon="Resources/icon.ico" WindowStartupLocation="CenterOwner" MinHeight="300" MinWidth="520" Loaded="Window_Loaded">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32*"/>
+            <ColumnDefinition Width="81*"/>
+            <ColumnDefinition Width="409*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="54"/>
