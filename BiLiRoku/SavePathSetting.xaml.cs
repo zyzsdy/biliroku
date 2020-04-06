@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,6 +37,14 @@ namespace BiliRoku
             if (_config.Timeout != null)
             {
                 timeoutBox.Text = _config.Timeout;
+            }
+            if (_config.StartRecordCallback != null)
+            {
+                StartRecordCallbackBox.Text = _config.StartRecordCallback;
+            }
+            if (_config.StopRecordCallback != null)
+            {
+                StopRecordCallbackBox.Text = _config.StopRecordCallback;
             }
             SaveCommetCheckBox.IsChecked = _config.IsDownloadComment;
             AutoRecordCheckBox.IsChecked = _config.IsWaitStreaming;
@@ -100,6 +108,8 @@ namespace BiliRoku
                 _config.IsDownloadComment = SaveCommetCheckBox.IsChecked ?? false;
                 _config.IsWaitStreaming = AutoRecordCheckBox.IsChecked ?? false;
                 _config.IsAutoRetry = AutoRetryCheckBox.IsChecked ?? false;
+                _config.StartRecordCallback = StartRecordCallbackBox.Text;
+                _config.StopRecordCallback = StopRecordCallbackBox.Text;
             }
             DialogResult = true;
             Close();
