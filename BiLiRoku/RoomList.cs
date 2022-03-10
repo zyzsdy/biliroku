@@ -190,6 +190,10 @@ namespace BiliRoku
 
         public static string SafetyFileName(string fString)
         {
+            if (string.IsNullOrEmpty(fString))
+            {
+                return "null";
+            }
             var invalidChars = System.IO.Path.GetInvalidFileNameChars();
             var invalidCharIndex = fString.IndexOfAny(invalidChars, 0);
             if (invalidCharIndex == -1) return fString;
