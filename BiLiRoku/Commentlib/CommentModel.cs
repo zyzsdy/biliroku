@@ -200,7 +200,7 @@ namespace BiliRoku.Commentlib
         public string ToString(long startTime)
         {
             return
-                $"<d p=\"{Convert.ToDouble(Time - startTime) / 1000},{DmType},{Fontsize},{Color},{SendTimestamp},0,{UserHash},0\">{CommentText}</d>";
+                $"<d p=\"{Convert.ToDouble(Time - startTime) / 1000},{DmType},{Fontsize},{Color},{SendTimestamp},0,{UserHash},0\">{System.Security.SecurityElement.Escape(CommentText)}</d>";
         }
     }
 }
